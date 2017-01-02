@@ -2,7 +2,7 @@
 #include "Window.h"
 namespace tanks
 {
-	Window::Window(int height, int width, std::string title) :_height(height), _width(width), _title(title)
+	Window::Window(int width, int height, std::string title) :_width(width),_height(height), _title(title)
 	{
 	}
 
