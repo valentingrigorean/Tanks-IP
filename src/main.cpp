@@ -3,6 +3,7 @@
 
 int main(char ** argv, int argc) {
 	auto* window = new tanks::Window();
+	window->set_fullscreen(true);
 	window->init();
 
 	int a;

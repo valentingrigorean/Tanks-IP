@@ -19,6 +19,9 @@ namespace tanks
 		void init();
 		void close();
 
+
+		GLFWwindow* get_context() const;
+
 	private:
 		int _width;
 		int _height;

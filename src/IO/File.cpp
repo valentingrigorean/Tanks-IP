@@ -4,6 +4,15 @@
 
 namespace tanks::io
 {
+	File::File()
+	{
+	}
+
+
+	File::~File()
+	{
+	}
+
 	std::string File::ReadAllText(const char * path)
 	{
 		std::ifstream file;
@@ -15,14 +24,13 @@ namespace tanks::io
 		return text;
 	}
 
-	File::File()
+	std::vector<char> File::ReadAllBytes(const char * path)
 	{
-	}
-
-
-	File::~File()
-	{
-	}
+		std::ifstream file;
+		file.open(path,std::ios::binary);
+		ASSERT(file.fail(), "Failed to open file");
+		return std::vector<char>(std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>());
+	}	
 }
 
 

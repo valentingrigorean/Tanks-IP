@@ -1,5 +1,6 @@
 
 #include "Window.h"
+
 namespace tanks
 {
 	Window::Window(int width, int height, std::string title) :_width(width),_height(height), _title(title)
@@ -34,12 +35,15 @@ namespace tanks
 		glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
 		_window = glfwCreateWindow(_width, _height, _title.c_str(), _fullscreen ? glfwGetPrimaryMonitor() : nullptr, nullptr);
-
 	}
 
 	void Window::close()
 	{
 		glfwSetWindowShouldClose(_window, GL_TRUE);
 		glfwTerminate();
+	}
+	GLFWwindow * Window::get_context() const
+	{
+		return _window;
 	}
 }
