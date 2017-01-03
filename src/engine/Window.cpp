@@ -47,6 +47,7 @@ namespace tanks::engine
 	void Window::close()
 	{
 		glfwSetWindowShouldClose(_window, GL_TRUE);
+		glfwDestroyWindow(_window);
 		glfwTerminate();
 		CallbackMap.erase(_window);
 	}
@@ -54,6 +55,11 @@ namespace tanks::engine
 	void Window::setOnCloseCallback(OnCloseCallback callback)
 	{
 		_onCloseCallback = callback;
+	}
+
+	void Window::swapBuffers()
+	{
+		glfwSwapBuffers(_window);
 	}
 
 	void Window::internalCloseCallback(GLFWwindow * window)

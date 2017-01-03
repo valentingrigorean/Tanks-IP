@@ -25,6 +25,7 @@ namespace tanks::engine
 
 		void setOnCloseCallback(OnCloseCallback callback);
 
+		void swapBuffers();
 
 		inline GLFWwindow* getContext() const
 		{
