@@ -1,13 +1,9 @@
 #include <iostream>
-#include "Window.h"
+#include "engine\Engine.h"
 
 int main(char ** argv, int argc) {
-	auto* window = new tanks::Window();
-	window->set_fullscreen(true);
-	window->init();
-
-	int a;
-	std::cin >> a;
-	delete window;
+	auto game = new tanks::engine::Engine();
+	game->mainLoop();
+	delete game;
 	return 0;
 }
