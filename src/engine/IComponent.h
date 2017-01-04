@@ -3,5 +3,5 @@
 class IComponent
 {
 public:
-	virtual int getId() const = 0;
+	virtual int getId() = 0;
 };

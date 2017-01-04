@@ -12,3 +12,5 @@
         } \
     } while (false)
 #endif
+	
+extern void fatalError(const char* msg);

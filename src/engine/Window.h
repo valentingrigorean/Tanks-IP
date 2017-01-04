@@ -1,9 +1,9 @@
 #pragma once
 
 #include <string>
-#include <GLFW\glfw3.h>
 #include <assert.h>
 #include <map>
+#include "opengl.h"
 #include "..\error.h"
 
 namespace tanks::engine

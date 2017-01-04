@@ -13,7 +13,7 @@ namespace tanks::io
 	{
 	}
 
-	std::string File::ReadAllText(const char * path)
+	std::string File::readAllText(const char * path)
 	{
 		std::ifstream file;
 		file.open(path);		
@@ -24,13 +24,21 @@ namespace tanks::io
 		return text;
 	}
 
-	std::vector<char> File::ReadAllBytes(const char * path)
+	std::vector<char> File::readAllBytes(const char * path)
 	{
 		std::ifstream file;
 		file.open(path,std::ios::binary);
 		ASSERT(file.fail(), "Failed to open file");
 		return std::vector<char>(std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>());
-	}	
+	}
+	std::string File::getExtension(const char * path)
+	{
+		std::string temp(path);
+		auto index = temp.find_last_of('.');
+		if (index < 0)
+			return std::string();
+		return temp.substr(index, temp.size() - index);
+	}
 }
 
 

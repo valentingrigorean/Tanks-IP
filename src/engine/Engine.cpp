@@ -1,9 +1,11 @@
 #include "Engine.h"
 #include "Input.h"
-
+#include <sstream>
 
 namespace tanks::engine
 {	
+
+	void showFPS(GLFWwindow *pWindow);
 
 	Engine::~Engine()
 	{
@@ -11,31 +13,25 @@ namespace tanks::engine
 		_window.close();
 	}
 
-	void Engine::update(float dt)
+	void Engine::update(double dt)
 	{
 	}
 
-	//implementation from http://gameprogrammingpatterns.com/game-loop.html
 	void Engine::mainLoop()
 	{
 		init();
 		double previous = glfwGetTime();
-		double lag = 0;
-		double MS_PER_UPDATE = 1 / 60.0;
+		
 		while (!glfwWindowShouldClose(_window.getContext()))
 		{			
 			double current = glfwGetTime();
 			double elapsed = current - previous;
-			previous = current;
-			lag += elapsed;
-			
-			while (lag >= MS_PER_UPDATE)
-			{
-				update(lag / MS_PER_UPDATE);
-				lag -= MS_PER_UPDATE;
-			}
-			
-			update(lag / MS_PER_UPDATE);
+			previous = current;		
+			update(elapsed);
+			showFPS(_window.getContext());
+
+
+
 			_window.swapBuffers();
 			Input::pollEvents();
 			if (Input::getKey(GLFW_KEY_ESCAPE))
@@ -50,8 +46,33 @@ namespace tanks::engine
 
 	void Engine::init()
 	{
+		glewExperimental = GL_TRUE;
+		glewInit();
 		_window.init();
 		Input::registerWindow(&_window);
 	}
 
+	int nbFrames = 0;
+	double lastTime = 0;
+
+	void showFPS(GLFWwindow *pWindow)
+	{
+		// Measure speed
+		double currentTime = glfwGetTime();
+		double delta = currentTime - lastTime;
+		nbFrames++;
+		if (delta >= 1.0) { // If last cout was more than 1 sec ago
+			std::cout << 1000.0 / double(nbFrames) << std::endl;
+
+			double fps = double(nbFrames) / delta;
+
+			std::stringstream ss;
+			ss << "TANKS" << " " << "1.0" << " [" << fps << " FPS]";
+
+			glfwSetWindowTitle(pWindow, ss.str().c_str());
+
+			nbFrames = 0;
+			lastTime = currentTime;
+		}
+	}
 }

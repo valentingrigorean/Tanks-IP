@@ -1,12 +1,14 @@
 #include "GameObject.h"
 
+IComponent * GameObject::getComponent(int id)
+{
+	return nullptr;
+}
 
-
-GameObject::GameObject()
+void GameObject::addComponent(IComponent * comp)
 {
 }
 
-
-GameObject::~GameObject()
+void GameObject::removeComponent(IComponent * comp)
 {
 }

@@ -9,7 +9,7 @@ namespace tanks::engine
 	{
 	public:		
 		Engine::~Engine();		
-		void update(float dt);
+		void update(double dt);
 		void mainLoop();
 		void add(ISystem* system);
 	private:
