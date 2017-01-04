@@ -1,37 +1,36 @@
 #include "Engine.h"
 #include "Input.h"
+#include "systems\RenderSystem.h"
 #include <sstream>
 
 namespace tanks::engine
 {	
-
-	void showFPS(GLFWwindow *pWindow);
-
 	Engine::~Engine()
 	{
 		Input::unregisterWindow(&_window);
 		_window.close();
+		for (auto& cSystem : _systems)
+			delete cSystem;
 	}
 
-	void Engine::update(double dt)
+	void Engine::update(float dt)
 	{
+		for (auto& cSystem : _systems)
+			cSystem->update(dt);
 	}
 
 	void Engine::mainLoop()
 	{
 		init();
-		double previous = glfwGetTime();
-		
+
+		double previous = glfwGetTime();		
 		while (!glfwWindowShouldClose(_window.getContext()))
 		{			
 			double current = glfwGetTime();
 			double elapsed = current - previous;
 			previous = current;		
 			update(elapsed);
-			showFPS(_window.getContext());
-
-
-
+			showFPS();
 			_window.swapBuffers();
 			Input::pollEvents();
 			if (Input::getKey(GLFW_KEY_ESCAPE))
@@ -39,40 +38,39 @@ namespace tanks::engine
 		}
 	}
 
-	void Engine::add(ISystem * system)
+	void Engine::add(ISystem * cSystem)
 	{
-		
+		_systems.push_back(cSystem);
 	}
 
 	void Engine::init()
-	{
-		glewExperimental = GL_TRUE;
-		glewInit();
+	{		
 		_window.init();
 		Input::registerWindow(&_window);
+		add(new RenderSystem());
+		for (auto& cSystem : _systems)
+			cSystem->init();
 	}
 
-	int nbFrames = 0;
-	double lastTime = 0;
-
-	void showFPS(GLFWwindow *pWindow)
-	{
-		// Measure speed
+	void Engine::showFPS()
+	{		
 		double currentTime = glfwGetTime();
-		double delta = currentTime - lastTime;
-		nbFrames++;
+		double delta = currentTime - _lastTime;
+		_frames++;
 		if (delta >= 1.0) { // If last cout was more than 1 sec ago
-			std::cout << 1000.0 / double(nbFrames) << std::endl;
+			std::cout << 1000.0 / double(_frames) << std::endl;
 
-			double fps = double(nbFrames) / delta;
+			double fps = double(_frames) / delta;
 
 			std::stringstream ss;
 			ss << "TANKS" << " " << "1.0" << " [" << fps << " FPS]";
 
-			glfwSetWindowTitle(pWindow, ss.str().c_str());
+			glfwSetWindowTitle(_window.getContext(), ss.str().c_str());
 
-			nbFrames = 0;
-			lastTime = currentTime;
+			_frames = 0;
+			_lastTime = currentTime;
 		}
 	}
+
+	
 }

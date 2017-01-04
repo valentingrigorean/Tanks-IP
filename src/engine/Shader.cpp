@@ -19,8 +19,8 @@ namespace tanks::engine
 	{		
 
 		auto shader = create(filePath);
-
-		auto text = (const GLchar *)io::File::readAllText(filePath).c_str();
+		auto fileText = io::File::readAllText(filePath);		
+		auto text = (const GLchar *)fileText.c_str();
 		
 		glShaderSource(shader, 1, &text, nullptr);
 		glCompileShader(shader);
@@ -78,7 +78,7 @@ namespace tanks::engine
 			return glCreateShader(GL_VERTEX_SHADER);
 		if (ext == ".frag")
 			return glCreateShader(GL_FRAGMENT_SHADER);
-		fatalError("invalid shader program");
+		FATAL_ERROR("invalid shader program");
 		return 0;
 	}
 
@@ -95,7 +95,7 @@ namespace tanks::engine
 		glGetShaderiv(id, GL_INFO_LOG_LENGTH, &size);
 		auto buffer = new GLchar[size];
 		glGetShaderInfoLog(id, size, nullptr, buffer);	
-		fatalError(buffer);
+		FATAL_ERROR(buffer);
 		delete buffer;
 	}
 

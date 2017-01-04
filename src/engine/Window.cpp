@@ -43,6 +43,10 @@ namespace tanks::engine
 		glfwMakeContextCurrent(_window);		
 		glfwSetWindowCloseCallback(_window, Window::internalCloseCallback);
 		CallbackMap[_window] = this;
+
+		glewExperimental = GL_TRUE;
+		auto result = glewInit();
+		ASSERT(result == GLEW_OK, "failed to initialize glew!");
 	}
 
 	void Window::close()

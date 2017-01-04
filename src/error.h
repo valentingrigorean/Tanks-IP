@@ -1,16 +1,11 @@
 #pragma once
+
+#include <string>
 #include <iostream>
 #include <exception>
 
-#ifndef NDEBUG
-#define ASSERT(condition,message)\
-	  do { \
-        if (! (condition)) { \
-            std::cerr << "Assertion `" #condition "` failed in " << __FILE__ \
-                      << " line " << __LINE__ << ": " << message << std::endl; \
-            std::terminate(); \
-        } \
-    } while (false)
-#endif
-	
-extern void fatalError(const char* msg);
+#define FATAL_ERROR(message)\
+	{\
+		std::cerr << "Error in " << __FILE__ << " line " << __LINE__ << ": " << message << std::endl; \
+		std::terminate(); \
+	}

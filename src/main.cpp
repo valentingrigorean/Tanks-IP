@@ -1,7 +1,8 @@
-#include <iostream>
 #include "engine\Engine.h"
 
-int main(char ** argv, int argc) {
+int main(char ** argv, int argc) 
+{
+	
 	auto game = new tanks::engine::Engine();
 	game->mainLoop();
 	delete game;

@@ -24,6 +24,7 @@
     <ClCompile Include="src\engine\GameObject.cpp" />
     <ClCompile Include="src\engine\Input.cpp" />
     <ClCompile Include="src\Engine\Engine.cpp" />
+    <ClCompile Include="src\engine\systems\RenderSystem.cpp" />
     <ClCompile Include="src\error.cpp" />
     <ClCompile Include="src\IO\File.cpp" />
     <ClCompile Include="src\error.h" />
@@ -32,14 +33,16 @@
     <ClCompile Include="src\engine\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\constants.h" />
     <ClInclude Include="src\engine\Shader.h" />
     <ClInclude Include="src\engine\Sprite.h" />
     <ClInclude Include="src\engine\GameObject.h" />
-    <ClInclude Include="src\engine\ISystem.h" />
+    <ClInclude Include="src\engine\systems\ISystem.h" />
     <ClInclude Include="src\engine\IComponent.h" />
     <ClInclude Include="src\engine\Input.h" />
     <ClInclude Include="src\Engine\Engine.h" />
     <ClInclude Include="src\engine\opengl.h" />
+    <ClInclude Include="src\engine\systems\RenderSystem.h" />
     <ClInclude Include="src\IO\File.h" />
     <ClInclude Include="src\Engine\Window.h" />
     <ClInclude Include="src\engine\Texture.h" />
@@ -98,7 +101,9 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -113,11 +118,10 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>C:\Users\valen\Source\Repos\Tanks-IP\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/std:c++latest %(AdditionalOptions)</AdditionalOptions>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>opengl32.lib;glfw3.lib;SOIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Users\valen\Source\Repos\Tanks-IP\libs\soil\lib;C:\Users\valen\Source\Repos\Tanks-IP\libs\glfw\lib-vc2015;C:\Users\valen\Source\Repos\Tanks-IP\libs\glew\lib\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glfw3.lib;SOIL.lib;glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\valen\Source\Repos\Tanks-IP\libs\glew\lib\Release\x64;C:\Users\valen\Source\Repos\Tanks-IP\libs\soil\lib;C:\Users\valen\Source\Repos\Tanks-IP\libs\glfw\lib-vc2015;C:\Users\valen\Source\Repos\Tanks-IP\libs\glew\lib\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -142,13 +146,12 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>C:\Users\valen\Source\Repos\Tanks-IP\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/std:c++latest %(AdditionalOptions)</AdditionalOptions>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>opengl32.lib;glfw3.lib;SOIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Users\valen\Source\Repos\Tanks-IP\libs\soil\lib;C:\Users\valen\Source\Repos\Tanks-IP\libs\glfw\lib-vc2015;C:\Users\valen\Source\Repos\Tanks-IP\libs\glew\lib\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glfw3.lib;SOIL.lib;glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\valen\Source\Repos\Tanks-IP\libs\glew\lib\Release\x64;C:\Users\valen\Source\Repos\Tanks-IP\libs\soil\lib;C:\Users\valen\Source\Repos\Tanks-IP\libs\glfw\lib-vc2015;C:\Users\valen\Source\Repos\Tanks-IP\libs\glew\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

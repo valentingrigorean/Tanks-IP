@@ -1,6 +1,6 @@
 #pragma once
 #include "Window.h"
-#include "ISystem.h"
+#include "systems\ISystem.h"
 #include <vector>
 
 namespace tanks::engine
@@ -9,13 +9,16 @@ namespace tanks::engine
 	{
 	public:		
 		Engine::~Engine();		
-		void update(double dt);
+		void update(float dt);
 		void mainLoop();
 		void add(ISystem* system);
 	private:
 		void init();
+		void showFPS();
 	private:
 		Window _window;
+		double _lastTime;
+		int _frames;
 		std::vector<ISystem*> _systems;
 	};
 }
