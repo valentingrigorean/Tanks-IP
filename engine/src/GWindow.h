@@ -5,6 +5,7 @@
 #include <map>
 #include "GOpengl.h"
 #include "GError.h"
+#include "color.h"
 
 
 typedef void(*OnCloseCallback)();
@@ -20,15 +21,15 @@ public:
 
 	std::string getTitle() const;
 
+	int getWidth() const;
+	int getHeight() const;
+
 	void init();
 	void close();
 
 	void setOnCloseCallback(OnCloseCallback callback);
 
 	void swapBuffers();
-
-	void begin();
-	void end();
 
 	inline GLFWwindow* getContext() const
 	{
@@ -37,6 +38,7 @@ public:
 private:
 	static void internalCloseCallback(GLFWwindow* window);
 private:
+	Color _clearColor;
 	int _width;
 	int _height;
 	bool _fullscreen;

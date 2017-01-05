@@ -1,12 +1,13 @@
 #pragma once
 #include "ISystem.h"
 #include "../Shader.h"
+#include "../Graphics.h"
 
 class GWindow;
 class RenderSystem :public ISystem
 {
 public:
-	RenderSystem(GWindow* window);
+	RenderSystem(Graphics* graphics);
 	~RenderSystem();
 
 	void update(float dt);
@@ -15,7 +16,7 @@ public:
 
 private:
 	Shader _shader;
-	GWindow* _window;
+	Graphics* _graphics;
 };
 
 

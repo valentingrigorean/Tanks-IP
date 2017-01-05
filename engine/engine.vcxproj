@@ -117,6 +117,7 @@
     <ClInclude Include="src\color.h" />
     <ClInclude Include="src\Engine.h" />
     <ClInclude Include="src\GameObject.h" />
+    <ClInclude Include="src\Graphics.h" />
     <ClInclude Include="src\GTimer.h" />
     <ClInclude Include="src\GWindow.h" />
     <ClInclude Include="src\IComponent.h" />
@@ -131,8 +132,10 @@
     <ClInclude Include="src\io\GFile.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Color.cpp" />
     <ClCompile Include="src\Engine.cpp" />
     <ClCompile Include="src\GameObject.cpp" />
+    <ClCompile Include="src\Graphics.cpp" />
     <ClCompile Include="src\GTimer.cpp" />
     <ClCompile Include="src\GWindow.cpp" />
     <ClCompile Include="src\Input.cpp" />

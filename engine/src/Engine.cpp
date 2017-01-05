@@ -11,10 +11,12 @@ Engine::Engine(GWindow * window) :_window(window)
 
 Engine::~Engine()
 {
-	Input::unregisterWindow(_window);
+	if (_graphics != nullptr)
+		delete _graphics;
 	_window->close();
+	Input::unregisterWindow(_window);	
 	for (auto& cSystem : _systems)
-		delete cSystem;
+		delete cSystem;	
 }
 
 void Engine::update(float dt)
@@ -44,9 +46,10 @@ void Engine::add(ISystem * cSystem)
 
 void Engine::init()
 {
-	_window->init();
+	_graphics = new Graphics(_window);
+	_graphics->init();
 	Input::registerWindow(_window);
-	add(new RenderSystem(_window));
+	add(new RenderSystem(_graphics));
 	for (auto& cSystem : _systems)
 		cSystem->init();
 }

@@ -4,7 +4,7 @@
 
 std::map<GLFWwindow*, GWindow*> GWindow::CallbackMap;
 
-GWindow::GWindow(int width, int height, std::string title) :_width(width), _height(height), _title(title)
+GWindow::GWindow(int width, int height, std::string title) :_width(width), _height(height), _title(title),_clearColor(Color::Red)
 {
 }
 
@@ -12,7 +12,6 @@ GWindow::~GWindow()
 {
 
 }
-
 
 bool GWindow::isFullscreen() const
 {
@@ -27,6 +26,16 @@ void GWindow::setFullscreen(bool value)
 std::string GWindow::getTitle() const
 {
 	return _title;
+}
+
+int GWindow::getWidth() const
+{
+	return _width;
+}
+
+int GWindow::getHeight() const
+{
+	return _height;
 }
 
 void GWindow::init()
@@ -61,6 +70,7 @@ void GWindow::close()
 	glfwTerminate();
 	CallbackMap.erase(_window);
 }
+
 
 void GWindow::setOnCloseCallback(OnCloseCallback callback)
 {

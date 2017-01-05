@@ -1,6 +1,7 @@
 #pragma once
 #include "GOpengl.h"
 #include <vector>
+#include <map>
 #include "io\GFile.h"
 #include "GError.h"
 
@@ -13,16 +14,23 @@ public:
 
 	Shader& attach(const char* filePath);
 	Shader& link();
-	void bind(GLuint location, float value);
-	void bind(GLuint location, glm::mat4 const & matrix);
+	
+	GLuint get() const;
+
+	Shader& bindAttribute(const char* name,int count,int size, void* offsetPointer = 0);
+	Shader& bindUniform(const char* name, GLfloat val);
+	Shader& bindUniform(const char* name, const glm::vec2 &v);
+	Shader& bindUniform(const char* name, const glm::vec3 &v);
 	void use();
 	void unuse();
 
 private:
 	GLuint create(const char* filePath);
 	bool checkIfValid(GLuint id, GLenum type, bool isProgram);
-	void printInfoLog(GLuint id);
+	void printInfoLog(GLuint id,bool isProgram);
 private:
 	GLuint _program;
 	std::vector<GLuint> _shaders;
+	std::map<std::string, GLint> _attributes;
+	bool _wasLink;
 };
