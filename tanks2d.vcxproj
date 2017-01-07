@@ -127,11 +127,13 @@
   <ItemGroup>
     <ClCompile Include="src\GLFW\GLFWTimer.cpp" />
     <ClCompile Include="src\GTimer.cpp" />
+    <ClCompile Include="src\io\GFile.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Display.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\GLFW\GLFWDisplay.cpp" />
     <ClCompile Include="src\GLFW\GLFWInput.cpp" />
+    <ClCompile Include="src\Shader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\GError.h" />
@@ -143,6 +145,8 @@
     <ClInclude Include="src\GOpengl.h" />
     <ClInclude Include="src\GTimer.h" />
     <ClInclude Include="src\Input.h" />
+    <ClInclude Include="src\io\GFile.h" />
+    <ClInclude Include="src\Shader.h" />
     <ClInclude Include="src\Utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
