@@ -19,8 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{77941CE2-1FC8-467C-AA94-AFEE7D2686BD}</ProjectGuid>
-    <RootNamespace>engine</RootNamespace>
+    <ProjectGuid>{0074E5FC-ED95-4B3B-99E8-91C9F4910BAC}</ProjectGuid>
+    <RootNamespace>tanks2d</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -38,7 +38,7 @@
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
@@ -69,8 +69,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)libs\;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)engine\src;$(SolutionDir)include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)libs\soil\lib;$(SolutionDir)libs\glfw\lib-vc2015;$(SolutionDir)libs\glew\lib\Release\x64;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>$(SolutionDir)engine\src;$(SolutionDir)include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)libs\soil\lib;$(SolutionDir)libs\glfw\lib-vc2015;$(SolutionDir)libs\glew\lib\Release\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -85,6 +89,9 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
+    <Link>
+      <AdditionalDependencies>opengl32.lib;glfw3.lib;SOIL.lib;glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -113,37 +120,30 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\GConstants.h" />
-    <ClInclude Include="src\color.h" />
-    <ClInclude Include="src\Engine.h" />
-    <ClInclude Include="src\GameObject.h" />
-    <ClInclude Include="src\Graphics.h" />
-    <ClInclude Include="src\GTimer.h" />
-    <ClInclude Include="src\GWindow.h" />
-    <ClInclude Include="src\IComponent.h" />
-    <ClInclude Include="src\Input.h" />
-    <ClInclude Include="src\GOpengl.h" />
-    <ClInclude Include="src\Shader.h" />
-    <ClInclude Include="src\Sprite.h" />
-    <ClInclude Include="src\systems\ISystem.h" />
-    <ClInclude Include="src\systems\RenderSystem.h" />
-    <ClInclude Include="src\Texture.h" />
-    <ClInclude Include="src\GError.h" />
-    <ClInclude Include="src\io\GFile.h" />
+    <None Include="resources\shaders\main.frag" />
+    <None Include="resources\shaders\main.vert" />
+    <None Include="src\ResourceManager.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Color.cpp" />
-    <ClCompile Include="src\Engine.cpp" />
-    <ClCompile Include="src\GameObject.cpp" />
-    <ClCompile Include="src\Graphics.cpp" />
+    <ClCompile Include="src\GLFW\GLFWTimer.cpp" />
     <ClCompile Include="src\GTimer.cpp" />
-    <ClCompile Include="src\GWindow.cpp" />
-    <ClCompile Include="src\Input.cpp" />
-    <ClCompile Include="src\Shader.cpp" />
-    <ClCompile Include="src\Sprite.cpp" />
-    <ClCompile Include="src\systems\RenderSystem.cpp" />
-    <ClCompile Include="src\Texture.cpp" />
-    <ClCompile Include="src\io\GFile.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Display.cpp" />
+    <ClCompile Include="src\Game.cpp" />
+    <ClCompile Include="src\GLFW\GLFWDisplay.cpp" />
+    <ClCompile Include="src\GLFW\GLFWInput.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\GError.h" />
+    <ClInclude Include="src\GLFW\GLFWDisplay.h" />
+    <ClInclude Include="src\Display.h" />
+    <ClInclude Include="src\Game.h" />
+    <ClInclude Include="src\GLFW\GLFWInput.h" />
+    <ClInclude Include="src\GLFW\GLFWTimer.h" />
+    <ClInclude Include="src\GOpengl.h" />
+    <ClInclude Include="src\GTimer.h" />
+    <ClInclude Include="src\Input.h" />
+    <ClInclude Include="src\Utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

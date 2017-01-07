@@ -3,9 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "engine", "engine\engine.vcxproj", "{77941CE2-1FC8-467C-AA94-AFEE7D2686BD}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tanks2d", "tanks2d\tanks2d.vcxproj", "{0074E5FC-ED95-4B3B-99E8-91C9F4910BAC}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tanks2d", "tanks2d.vcxproj", "{0074E5FC-ED95-4B3B-99E8-91C9F4910BAC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,14 +13,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{77941CE2-1FC8-467C-AA94-AFEE7D2686BD}.Debug|x64.ActiveCfg = Debug|x64
-		{77941CE2-1FC8-467C-AA94-AFEE7D2686BD}.Debug|x64.Build.0 = Debug|x64
-		{77941CE2-1FC8-467C-AA94-AFEE7D2686BD}.Debug|x86.ActiveCfg = Debug|Win32
-		{77941CE2-1FC8-467C-AA94-AFEE7D2686BD}.Debug|x86.Build.0 = Debug|Win32
-		{77941CE2-1FC8-467C-AA94-AFEE7D2686BD}.Release|x64.ActiveCfg = Release|x64
-		{77941CE2-1FC8-467C-AA94-AFEE7D2686BD}.Release|x64.Build.0 = Release|x64
-		{77941CE2-1FC8-467C-AA94-AFEE7D2686BD}.Release|x86.ActiveCfg = Release|Win32
-		{77941CE2-1FC8-467C-AA94-AFEE7D2686BD}.Release|x86.Build.0 = Release|Win32
 		{0074E5FC-ED95-4B3B-99E8-91C9F4910BAC}.Debug|x64.ActiveCfg = Debug|x64
 		{0074E5FC-ED95-4B3B-99E8-91C9F4910BAC}.Debug|x64.Build.0 = Debug|x64
 		{0074E5FC-ED95-4B3B-99E8-91C9F4910BAC}.Debug|x86.ActiveCfg = Debug|Win32
