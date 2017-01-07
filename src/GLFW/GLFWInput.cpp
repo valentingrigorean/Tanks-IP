@@ -1,3 +1,5 @@
+#include <ctype.h>
+
 #include "GLFWInput.h"
 #include "../GOpengl.h"
 
@@ -23,8 +25,8 @@ bool GLFWInput::GetKey(int keyCode)
 }
 
 bool GLFWInput::GetKey(char key)
-{
-	return KeysMap[key];
+{	
+	return KeysMap[toupper(key)];
 }
 
 void GLFWInput::PollEvents()
@@ -39,7 +41,7 @@ void GLFWInput::RegisterWindow(GLFWwindow * window)
 }
 
 void GLFWInput::KeyCallback(GLFWwindow * window, int key, int scancode, int action, int mods)
-{
+{	
 	switch (action)
 	{
 	case GLFW_RELEASE:

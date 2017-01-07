@@ -40,7 +40,9 @@ void Game::Init()
 	_sprite->GetSize().y = 200;
 	_sprite->GetPosition().x = 30;
 	_sprite->GetPosition().y = 30;
-
+	_sprite->GetColor().g = 1.f;
+	_sprite->GetColor().r = 1.f;
+	_sprite->GetColor().b = 1.f;
 	_sprite->SetRotate(45.f);
 	_sprite->GetColor().y = 1.f;
 }
@@ -73,8 +75,20 @@ void Game::MainLoop()
 			lastFrame = _timer->StartTime();
 		}
 		Render();
+		_input->PollEvents();
 		if (_input->GetKey(G_KEY_ESCAPE))
 			_state = GameState::GAME_EXIT;
-		_input->PollEvents();
+		if (_input->GetKey('w'))
+			_sprite->GetPosition().y -= 5;
+		if (_input->GetKey('s'))
+			_sprite->GetPosition().y += 5;
+		if (_input->GetKey('a'))
+			_sprite->GetPosition().x -= 5;
+		if (_input->GetKey('d'))
+			_sprite->GetPosition().x += 5;
+		if (_input->GetKey('e'))
+			_sprite->SetRotate(_sprite->GetRotate() + 0.05f);
+		if (_input->GetKey('q'))
+			_sprite->SetRotate(_sprite->GetRotate() - 0.05f);
 	}
 }
