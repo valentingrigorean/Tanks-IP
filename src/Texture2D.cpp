@@ -1,4 +1,5 @@
 #include "Texture2D.h"
+#include "Utils.h"
 
 Texture2D::Texture2D()
 {
@@ -58,8 +59,11 @@ GLint Texture2D::GetConfig(GLenum parameter)
 	return _paramMap[parameter];
 }
 
-void Texture2D::Bind() const
+void Texture2D::Bind(int unit) const
 {
+	unit = Clamp(unit,0, 32);
+
+	glActiveTexture(GL_TEXTURE0 + unit);
 	glBindTexture(GL_TEXTURE_2D, _id);
 }
 

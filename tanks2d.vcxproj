@@ -120,8 +120,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <None Include="resources\shaders\main.frag" />
-    <None Include="resources\shaders\main.vert" />
+    <None Include="resources\shaders\sprite.frag" />
+    <None Include="resources\shaders\sprite.vert" />
     <None Include="src\ResourceManager.h" />
   </ItemGroup>
   <ItemGroup>
@@ -135,9 +135,11 @@
     <ClCompile Include="src\GLFW\GLFWInput.cpp" />
     <ClCompile Include="src\ResourceManager.cpp" />
     <ClCompile Include="src\Shader.cpp" />
+    <ClCompile Include="src\SpriteRenderer.cpp" />
     <ClCompile Include="src\Texture2D.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\GConstants.h" />
     <ClInclude Include="src\GError.h" />
     <ClInclude Include="src\GLFW\GLFWDisplay.h" />
     <ClInclude Include="src\Display.h" />
@@ -149,6 +151,8 @@
     <ClInclude Include="src\Input.h" />
     <ClInclude Include="src\io\GFile.h" />
     <ClInclude Include="src\Shader.h" />
+    <ClInclude Include="src\Sprite.h" />
+    <ClInclude Include="src\SpriteRenderer.h" />
     <ClInclude Include="src\Texture2D.h" />
     <ClInclude Include="src\Utils.h" />
   </ItemGroup>

@@ -19,7 +19,7 @@ public:
 
 	GLint GetConfig(GLenum parameter);
 
-	void Bind() const;
+	void Bind(int unit = 0) const;
 	void UnBind() const;
 private:
 	GLuint _id;

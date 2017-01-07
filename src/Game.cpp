@@ -1,6 +1,11 @@
+#include <iostream>
+#include <glm/gtc/matrix_transform.hpp>
+
 #include "Game.h"
 #include "Utils.h"
-#include <iostream>
+#include "GConstants.h"
+#include "ResourceManager.h"
+
 
 Game::Game(Display * display, Input * input, GTimer* timer) :_display(display), _input(input), _timer(timer)
 {
@@ -8,12 +13,37 @@ Game::Game(Display * display, Input * input, GTimer* timer) :_display(display), 
 
 Game::~Game()
 {
+	delete _render;
+	delete _sprite;
+	ResourceManager::Clear();
 }
 
 void Game::Init()
 {
 	_display->Init();
+	
+	auto projection = glm::ortho(0.0f, (float)_display->GetWidth(),
+		(float)_display->GetHeight(), 0.f, -1.f, 1.f);
 
+	auto shader = ResourceManager::LoadShader(
+		GetShaderPath("sprite.vert").c_str(),
+		GetShaderPath("sprite.frag").c_str(),
+		"sprite").
+		Bind().
+		SetInteger("image", 0).
+		SetMatrix4f("projection",projection);
+
+	_render = new SpriteRender(shader);
+	
+	auto texture = ResourceManager::LoadTexture(GetTexturePath("sample.png").c_str(), "cat");
+	_sprite = new Sprite(texture);
+	_sprite->GetSize().x = 200;
+	_sprite->GetSize().y = 200;
+	_sprite->GetPosition().x = 300;
+	_sprite->GetPosition().y = 400;
+
+	_sprite->SetRotate(45.f);
+	_sprite->GetColor().y = 1.f;
 }
 
 void Game::Update(float dt)
@@ -26,6 +56,7 @@ void Game::ProcessInput(float dt)
 
 void Game::Render()
 {
+	_render->DrawSprite(*_sprite);
 }
 
 void Game::MainLoop()

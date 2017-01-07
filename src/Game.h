@@ -2,6 +2,8 @@
 #include "Display.h"
 #include "Input.h"
 #include "GTimer.h"
+#include "SpriteRenderer.h"
+
 
 enum GameState
 {
@@ -27,4 +29,6 @@ private:
 	Display *_display;
 	Input *_input;
 	GTimer *_timer;
+	SpriteRender *_render;
+	Sprite *_sprite;
 };
