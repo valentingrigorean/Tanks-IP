@@ -25,15 +25,20 @@ void GLFWDisplay::Init()
 
 	_window = glfwCreateWindow(GetWidth(), GetHeight(), GetTitle().c_str(), nullptr, nullptr);
 
+	glfwMakeContextCurrent(_window);
+
 	glViewport(0, 0, GetWidth(), GetHeight());
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	//glewExperimental = GL_TRUE;	
-	//auto status = glewInit();
-	//if (status != GLEW_OK)
-	//	FATAL_ERROR("Failed to initialize glew");
+	glewExperimental = GL_TRUE;
+	if (glewInit() != GLEW_OK)
+		FATAL_ERROR("Failed to initialize glew");
+#if DEBUG
+	std::cout << "OpenGL " << glGetString(GL_VERSION) << " ,GLSL " 
+		<< glGetString(GL_SHADING_LANGUAGE_VERSION) <<std::endl;
+#endif
 }
 
 void GLFWDisplay::SwapBuffers()

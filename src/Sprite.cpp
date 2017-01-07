@@ -14,27 +14,27 @@ Texture2D& Sprite::GetTexture()
 	return _texture;
 }
 
-inline glm::vec2 & Sprite::GetPosition()
+glm::vec2 & Sprite::GetPosition()
 {
 	return _position;
 }
 
-inline glm::vec2 & Sprite::GetSize()
+glm::vec2 & Sprite::GetSize()
 {
 	return _size;
 }
 
-inline glm::vec3 & Sprite::GetColor()
+glm::vec3 & Sprite::GetColor()
 {
 	return _color;
 }
 
-inline float  Sprite::GetRotate()
+float  Sprite::GetRotate()
 {
 	return _rotate;
 }
 
-inline void Sprite::SetRotate(GLfloat rotate)
+void Sprite::SetRotate(GLfloat rotate)
 {
 	_rotate = rotate;
 }
@@ -44,7 +44,7 @@ inline float  Sprite::GetScale()
 	return _scale;
 }
 
-inline void Sprite::SetScale(GLfloat scale)
+void Sprite::SetScale(GLfloat scale)
 {
 	if (scale < 0)
 		scale = 0.f;
@@ -53,7 +53,7 @@ inline void Sprite::SetScale(GLfloat scale)
 	_scale = scale;
 }
 
-inline glm::mat4 & Sprite::GetModel()
+glm::mat4 Sprite::GetModel()
 {
 	glm::mat4 model;
 	model = glm::translate(model, glm::vec3(_position, 0.0f));

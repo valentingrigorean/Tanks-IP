@@ -3,7 +3,6 @@
 
 #include "Game.h"
 #include "Utils.h"
-#include "GConstants.h"
 #include "ResourceManager.h"
 
 
@@ -39,8 +38,8 @@ void Game::Init()
 	_sprite = new Sprite(texture);
 	_sprite->GetSize().x = 200;
 	_sprite->GetSize().y = 200;
-	_sprite->GetPosition().x = 300;
-	_sprite->GetPosition().y = 400;
+	_sprite->GetPosition().x = 30;
+	_sprite->GetPosition().y = 30;
 
 	_sprite->SetRotate(45.f);
 	_sprite->GetColor().y = 1.f;
@@ -56,7 +55,9 @@ void Game::ProcessInput(float dt)
 
 void Game::Render()
 {
+	_display->Clear();
 	_render->DrawSprite(*_sprite);
+	_display->SwapBuffers();
 }
 
 void Game::MainLoop()
@@ -71,7 +72,7 @@ void Game::MainLoop()
 			_display->SetTitle(Convert(_timer->GetFps()));
 			lastFrame = _timer->StartTime();
 		}
-		_display->SwapBuffers();
+		Render();
 		if (_input->GetKey(G_KEY_ESCAPE))
 			_state = GameState::GAME_EXIT;
 		_input->PollEvents();

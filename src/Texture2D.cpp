@@ -15,7 +15,7 @@ Texture2D::Texture2D()
 
 Texture2D::~Texture2D()
 {
-	glDeleteTextures(1, &_id);
+	//glDeleteTextures(1, &_id);
 }
 
 GLuint Texture2D::GetId() const

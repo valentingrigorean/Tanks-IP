@@ -4,7 +4,6 @@
 #include "GTimer.h"
 #include "SpriteRenderer.h"
 
-
 enum GameState
 {
 	GAME_ACTIVE,

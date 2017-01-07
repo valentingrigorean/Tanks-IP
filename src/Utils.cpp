@@ -1,0 +1,12 @@
+#include "Utils.h"
+#include "GConstants.h"
+
+std::string GetShaderPath(const char * file)
+{
+	return SHADER_FOLDER(file);
+}
+
+std::string GetTexturePath(const char * file)
+{
+	return TEXTURE_FOLDER(file);
+}

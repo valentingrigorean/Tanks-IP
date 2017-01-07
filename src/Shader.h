@@ -35,7 +35,7 @@ public:
 private:
 	inline GLint GetIdForName(const char* name);
 	GLenum GetProgramType(const char* filePath);
-	bool CheckIfValid(GLuint id, GLenum type, bool isProgram);
+	bool CheckIfValid(GLuint id, bool isProgram);
 	void PrintInfoLog(GLuint id, bool isProgram);
 private:
 	GLuint _id;

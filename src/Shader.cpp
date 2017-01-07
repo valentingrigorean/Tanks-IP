@@ -9,8 +9,7 @@ Shader::Shader()
 
 Shader::~Shader()
 {
-	glDeleteProgram(_id);
-
+	//glDeleteProgram(_id);
 }
 
 GLuint Shader::GetId() const
@@ -32,11 +31,9 @@ Shader & Shader::AttachSource(const char * sourceCode, GLenum type)
 	glShaderSource(shader, 1, &sourceCode, nullptr);
 	glCompileShader(shader);
 
-	if (!CheckIfValid(shader, GL_COMPILE_STATUS, false))
-	{
-		glDeleteShader(shader);
+	if (!CheckIfValid(shader,false))
 		PrintInfoLog(shader, false);
-	}
+
 	glAttachShader(_id, shader);
 	glDeleteShader(shader);
 	_shaders.push_back(shader);
@@ -46,11 +43,8 @@ Shader & Shader::AttachSource(const char * sourceCode, GLenum type)
 Shader & Shader::Link()
 {
 	glLinkProgram(_id);
-	if (!CheckIfValid(_id, GL_LINK_STATUS, true))
-	{
-		glDeleteProgram(_id);
-		PrintInfoLog(_id, true);
-	}
+	if (!CheckIfValid(_id,true))	
+		PrintInfoLog(_id, true);	
 	for (auto& shader : _shaders)
 		glDetachShader(_id, shader);
 	return *this;
@@ -138,25 +132,34 @@ GLenum Shader::GetProgramType(const char * filePath)
 	return 0;
 }
 
-bool Shader::CheckIfValid(GLuint id, GLenum type, bool isProgram)
+bool Shader::CheckIfValid(GLuint id,bool isProgram)
 {
-	GLint status;
+	GLint status = 0;
 	if (isProgram)
-		glGetProgramiv(id, type, &status);
+		glGetProgramiv(id, GL_LINK_STATUS, &status);
 	else
-		glGetShaderiv(id, type, &status);
+		glGetShaderiv(id, GL_COMPILE_STATUS, &status);
 	return status == GL_TRUE;
 }
 
 void Shader::PrintInfoLog(GLuint id, bool isProgram)
 {
 	GLint size;
-	if (isProgram)
+	std::vector<char> buffer;
+	switch (isProgram)
+	{
+	case true:
 		glGetProgramiv(id, GL_INFO_LOG_LENGTH, &size);
-	else
-		glGetShaderiv(id, GL_INFO_LOG_LENGTH, &size);
-	auto buffer = new GLchar[size];
-	glGetShaderInfoLog(id, size, nullptr, buffer);
-	delete buffer;
-	FATAL_ERROR(buffer);
+		buffer.resize(size);
+		glGetProgramInfoLog(id, size, nullptr, &buffer[0]);
+		glDeleteProgram(id);
+		break;
+	case false:
+		glGetShaderiv(id, GL_INFO_LOG_LENGTH, &size);	
+		buffer.resize(size);
+		glGetShaderInfoLog(id, size, nullptr, &buffer[0]);
+		glDeleteShader(id);
+		break;	
+	}
+	FATAL_ERROR(&buffer[0]);
 }
