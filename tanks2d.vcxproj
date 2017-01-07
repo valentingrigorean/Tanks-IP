@@ -133,6 +133,7 @@
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\GLFW\GLFWDisplay.cpp" />
     <ClCompile Include="src\GLFW\GLFWInput.cpp" />
+    <ClCompile Include="src\ResourceManager.cpp" />
     <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\Texture2D.cpp" />
   </ItemGroup>
