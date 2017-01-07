@@ -134,6 +134,7 @@
     <ClCompile Include="src\GLFW\GLFWDisplay.cpp" />
     <ClCompile Include="src\GLFW\GLFWInput.cpp" />
     <ClCompile Include="src\Shader.cpp" />
+    <ClCompile Include="src\Texture2D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\GError.h" />
@@ -147,6 +148,7 @@
     <ClInclude Include="src\Input.h" />
     <ClInclude Include="src\io\GFile.h" />
     <ClInclude Include="src\Shader.h" />
+    <ClInclude Include="src\Texture2D.h" />
     <ClInclude Include="src\Utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
