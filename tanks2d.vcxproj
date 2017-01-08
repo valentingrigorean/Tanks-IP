@@ -138,6 +138,8 @@
     <ClCompile Include="src\GLFW\GLFWDisplay.cpp" />
     <ClCompile Include="src\GLFW\GLFWInput.cpp" />
     <ClCompile Include="src\GRandom.cpp" />
+    <ClCompile Include="src\Player.cpp" />
+    <ClCompile Include="src\PlayerAI.cpp" />
     <ClCompile Include="src\ResourceManager.cpp" />
     <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\Sprite.cpp" />
@@ -145,6 +147,7 @@
     <ClCompile Include="src\Texture2D.cpp" />
     <ClCompile Include="src\Transform2D.cpp" />
     <ClCompile Include="src\Utils.cpp" />
+    <ClCompile Include="src\World.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Color.h" />
@@ -162,6 +165,8 @@
     <ClInclude Include="src\Input.h" />
     <ClInclude Include="src\io\GFile.h" />
     <ClInclude Include="src\GRandom.h" />
+    <ClInclude Include="src\Player.h" />
+    <ClInclude Include="src\PlayerAI.h" />
     <ClInclude Include="src\Point.h" />
     <ClInclude Include="src\Rect.h" />
     <ClInclude Include="src\Shader.h" />
@@ -171,6 +176,7 @@
     <ClInclude Include="src\Texture2D.h" />
     <ClInclude Include="src\Transform2D.h" />
     <ClInclude Include="src\Utils.h" />
+    <ClInclude Include="src\World.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="resources\levels\info.txt" />

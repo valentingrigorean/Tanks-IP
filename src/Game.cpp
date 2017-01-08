@@ -14,8 +14,6 @@ Game::Game(Display * display, Input * input, GTimer* timer) :_display(display), 
 Game::~Game()
 {
 	delete _render;
-	for (auto it : _spirtes)
-		delete it;
 	delete _background;
 	ResourceManager::Clear();
 }
@@ -41,13 +39,21 @@ void Game::Init()
 	ResourceManager::LoadTexture(GetTexturePath("background.png"), "bg");
 	ResourceManager::LoadTexture(GetTexturePath("solid1.png"), "s1");
 	ResourceManager::LoadTexture(GetTexturePath("solid2.png"), "s2");
-	ResourceManager::LoadTexture(GetTexturePath("brick1"), "b1");
+	ResourceManager::LoadTexture(GetTexturePath("brick1.png"), "b1");
+	ResourceManager::LoadTexture(GetTexturePath("tank.png"), "t");
 
 	_background = new GameObject(
 		Point(0.f,0.f),
 		Size(_display->GetWidth(), _display->GetHeight()),
 		ResourceManager::GetTexture(std::string("bg")));
 	
+	//Load levels
+	GameLevel one;
+	one.Load(GetLevelPath("level1.txt"), _display->GetWidth(), _display->GetHeight());
+
+
+	_levels.push_back(one);
+	_currentLevel = 0;
 }
 
 void Game::Update(float dt)
@@ -62,6 +68,8 @@ void Game::Render()
 {
 	_display->Clear();
 	_render->DrawSprite(_background->GetSprite(), _background->GetTransform());
+	auto currentMap = _levels[_currentLevel];
+	currentMap.Draw(*_render);
 	_display->SwapBuffers();
 }
 

@@ -4,6 +4,10 @@ GameObject::GameObject():_transform(0.f,0.f,1.f,1.f),_velocity(0.f,0.f)
 {
 }
 
+GameObject::GameObject(Point pos, Size size, Point velocity):_transform(pos,size),_velocity(velocity)
+{
+}
+
 GameObject::GameObject(Point pos, Size size, Sprite sprite, Point velocity):
 	_transform(pos,size),_velocity(velocity),_sprite(sprite)
 {
@@ -47,6 +51,10 @@ void GameObject::SetSprite(Sprite sprite)
 Point & GameObject::GetVelocity()
 {
 	return _velocity;
+}
+
+void GameObject::Update(float dt, World & world)
+{
 }
 
 void GameObject::Draw(SpriteRender & render)

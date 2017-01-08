@@ -10,3 +10,8 @@ std::string GetTexturePath(const char * file)
 {
 	return TEXTURE_FOLDER(file);
 }
+
+std::string GetLevelPath(const char * file)
+{
+	return LEVEL_FOLDER(file);
+}

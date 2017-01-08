@@ -3,12 +3,14 @@
 #include "Color.h"
 #include "Sprite.h"
 #include "SpriteRenderer.h"
+#include "World.h"
 
 class GameObject
 {
 public:
 	
 	GameObject();
+	GameObject(Point pos, Size size, Point velocity = Point(0.f, 0.f));
 	GameObject(Point pos, Size size, Sprite sprite, Point velocity = Point(0.f, 0.f));
 
 
@@ -25,6 +27,7 @@ public:
 
 	Point& GetVelocity();
 
+	virtual void Update(float dt,World& world);
 	virtual void Draw(SpriteRender &render);
 private:
 	Transform2D _transform;

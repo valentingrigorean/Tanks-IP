@@ -7,12 +7,9 @@
 #include <Windows.h>
 #endif
 
-
 GFile::GFile()
 {
 }
-
-
 
 std::string GFile::ReadAllText(const char * path)
 {
@@ -28,6 +25,22 @@ std::string GFile::ReadAllText(const char * path)
 		sb.append(line).append("\n");
 	}
 	return sb;
+}
+
+std::vector<std::string> GFile::ReadAllLines(const char * path)
+{
+	std::vector<std::string> lines;
+	std::ifstream file;
+	file.open(path);
+	if (file.fail())
+		FATAL_ERROR(std::string("Failed to open file:") + path);
+	std::string line;	
+	while (!file.eof())
+	{
+		std::getline(file, line);
+		lines.push_back(line);
+	}
+	return lines;
 }
 
 std::vector<char> GFile::ReadAllBytes(const char * path)

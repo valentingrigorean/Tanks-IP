@@ -22,3 +22,5 @@ inline T Clamp(T val, T min, T max)
 std::string GetShaderPath(const char* file);
 
 std::string GetTexturePath(const char* file);
+
+std::string GetLevelPath(const char* file);

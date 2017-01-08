@@ -3,7 +3,7 @@
 #include "Input.h"
 #include "GTimer.h"
 #include "SpriteRenderer.h"
-#include "GameObject.h"
+#include "GameLevel.h"
 
 enum GameState
 {
@@ -31,5 +31,6 @@ private:
 	GTimer *_timer;
 	SpriteRender *_render;
 	GameObject *_background;
-	std::vector<Sprite*> _spirtes;	
+	std::vector<GameLevel> _levels;
+	int _currentLevel;
 };

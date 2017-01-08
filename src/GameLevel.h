@@ -5,13 +5,14 @@
 
 class GameLevel
 {
-
+public:
 	GameLevel();
 
-	void Load(const char* file, int lvlWidth, int lvlHeight);
+	void Load(std::string& file, int lvlWidth, int lvlHeight);
 	void Draw(SpriteRender &renderer);
 	bool IsCompleted();
 
+	std::vector<GameObject> & GetGameObjects();
 private:
 	std::vector<GameObject> _gameObjects;
 };

@@ -13,7 +13,10 @@ public:
 		float rotation = 0.f, float scale = 1.f);
 	
 	Size& GetSize();
+	void SetSize(Size &size);
+
 	Point& GetPosition();
+	void SetPosition(Point &pos);
 
 	float GetScale() const;
 	void SetScale(float scale);

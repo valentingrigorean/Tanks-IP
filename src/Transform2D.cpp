@@ -26,9 +26,19 @@ Size & Transform2D::GetSize()
 	return _rect.size;
 }
 
+void Transform2D::SetSize(Size & size)
+{
+	_rect.size = size;
+}
+
 Point & Transform2D::GetPosition()
 {
 	return _rect.point;
+}
+
+void Transform2D::SetPosition(Point & pos)
+{
+	_rect.point = pos;
 }
 
 float Transform2D::GetScale() const
