@@ -1,0 +1,5 @@
+# - solid2
+t = tank
+1 - solid1
+p - player
+2 - brick

@@ -1,6 +1,8 @@
 #pragma once
 #include "GOpengl.h"
 #include <vector>
+#include "Point.h"
+#include "Color.h"
 
 class Shader
 {
@@ -24,9 +26,11 @@ public:
 
 	Shader& SetVector2f(const char* name, GLfloat x, GLfloat y);
 	Shader& SetVector2f(const char* name, glm::vec2 &value);
+	Shader& SetVector2f(const char* name, Point& p);
 
 	Shader& SetVector3f(const char* name, GLfloat x, GLfloat y, GLfloat z);
 	Shader& SetVector3f(const char* name, glm::vec3 &value);
+	Shader& SetVector3f(const char* name, Color& value);
 
 	Shader& SetVector4f(const char* name, GLfloat x, GLfloat y, GLfloat z,GLfloat w);
 	Shader& SetVector4f(const char* name, glm::vec4 &value);

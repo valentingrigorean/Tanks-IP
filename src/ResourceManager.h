@@ -10,10 +10,10 @@ class ResourceManager
 {
 public:
 	static Shader& GetShader(std::string name);
-	static Shader& LoadShader(const char* vShaderFile, const char* fShaderFile,std::string name);
+	static Shader& LoadShader(std::string& vShaderFile, std::string& fShaderFile,std::string name);
 
 	static Texture2D& GetTexture(std::string name);
-	static Texture2D& LoadTexture(const char* file, std::string name);
+	static Texture2D& LoadTexture(std::string& file, std::string name);
 	static void Clear();
 private:
 	ResourceManager();

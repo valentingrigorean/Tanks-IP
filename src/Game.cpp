@@ -16,6 +16,7 @@ Game::~Game()
 	delete _render;
 	for (auto it : _spirtes)
 		delete it;
+	delete _background;
 	ResourceManager::Clear();
 }
 
@@ -27,30 +28,26 @@ void Game::Init()
 		(float)_display->GetHeight(), 0.f, -1.f, 1.f);
 
 	auto shader = ResourceManager::LoadShader(
-		GetShaderPath("sprite.vert").c_str(),
-		GetShaderPath("sprite.frag").c_str(),
+		GetShaderPath("sprite.vert"),
+		GetShaderPath("sprite.frag"),
 		"sprite").
 		Bind().
 		SetInteger("image", 0).
 		SetMatrix4f("projection", projection);
 
 	_render = new SpriteRender(shader);
-	GRandom r;
 
-	auto texture = ResourceManager::LoadTexture(GetTexturePath("sample.png").c_str(), "cat");
-	for (int i = 0; i < 500; i++)
-	{
-		auto sprite = new Sprite(texture);
-		sprite->GetSize().x = (float)r.Next(20,80);
-		sprite->GetSize().y = (float)r.Next(20,80);
-		sprite->GetPosition().x = (float)r.Next(0, _display->GetWidth());
-		sprite->GetPosition().y = (float)r.Next(0, _display->GetHeight());
-		sprite->GetColor().g = (float)r.NextDouble();
-		sprite->GetColor().r = (float)r.NextDouble();
-		sprite->GetColor().b = (float)r.NextDouble();
-		sprite->SetRotate((float)r.Next(0,280));
-		_spirtes.push_back(sprite);
-	}
+	//Load textures
+	ResourceManager::LoadTexture(GetTexturePath("background.png"), "bg");
+	ResourceManager::LoadTexture(GetTexturePath("solid1.png"), "s1");
+	ResourceManager::LoadTexture(GetTexturePath("solid2.png"), "s2");
+	ResourceManager::LoadTexture(GetTexturePath("brick1"), "b1");
+
+	_background = new GameObject(
+		Point(0.f,0.f),
+		Size(_display->GetWidth(), _display->GetHeight()),
+		ResourceManager::GetTexture(std::string("bg")));
+	
 }
 
 void Game::Update(float dt)
@@ -64,8 +61,7 @@ void Game::ProcessInput(float dt)
 void Game::Render()
 {
 	_display->Clear();
-	for (auto sprite : _spirtes)
-		_render->DrawSprite(*sprite);
+	_render->DrawSprite(_background->GetSprite(), _background->GetTransform());
 	_display->SwapBuffers();
 }
 
@@ -83,26 +79,9 @@ void Game::MainLoop()
 		}
 		auto dtUpdate = _timer->GetDeltaTime();
 		Render();
-		_input->PollEvents();
+		_input->PollEvents();		
+
 		if (_input->GetKey(G_KEY_ESCAPE))
 			_state = GameState::GAME_EXIT;
-		if (_input->GetKey('w'))
-			for (auto sprite : _spirtes)
-				sprite->GetPosition().y -= (50 * dtUpdate);
-		if (_input->GetKey('s'))
-			for (auto sprite : _spirtes)
-				sprite->GetPosition().y += (50 * dtUpdate);
-		if (_input->GetKey('a'))
-			for (auto sprite : _spirtes)
-				sprite->GetPosition().x -= (50 * dtUpdate);
-		if (_input->GetKey('d'))
-			for (auto sprite : _spirtes)
-				sprite->GetPosition().x += (50 * dtUpdate);
-		if (_input->GetKey('e'))
-			for (auto sprite : _spirtes)
-				sprite->SetRotate(sprite->GetRotate() + (1.f *dtUpdate));
-		if (_input->GetKey('q'))
-			for (auto sprite : _spirtes)
-				sprite->SetRotate(sprite->GetRotate() - (1.f *dtUpdate));
 	}
 }

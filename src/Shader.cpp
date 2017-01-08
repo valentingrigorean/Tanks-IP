@@ -83,8 +83,12 @@ Shader & Shader::SetVector2f(const char * name, GLfloat x, GLfloat y)
 
 Shader & Shader::SetVector2f(const char * name, glm::vec2 & value)
 {
-	SetVector2f(name, value.x, value.y);
-	return *this;
+	return SetVector2f(name, value.x, value.y);	
+}
+
+Shader & Shader::SetVector2f(const char * name, Point & p)
+{
+	return SetVector2f(name, p.x, p.y);
 }
 
 Shader & Shader::SetVector3f(const char * name, GLfloat x, GLfloat y, GLfloat z)
@@ -95,8 +99,12 @@ Shader & Shader::SetVector3f(const char * name, GLfloat x, GLfloat y, GLfloat z)
 
 Shader & Shader::SetVector3f(const char * name, glm::vec3 & value)
 {
-	SetVector3f(name, value.x, value.y, value.z);
-	return *this;
+	return SetVector3f(name, value.x, value.y, value.z);	
+}
+
+Shader & Shader::SetVector3f(const char * name, Color & value)
+{
+	return SetVector3f(name,value.r, value.g, value.g);
 }
 
 Shader & Shader::SetVector4f(const char * name, GLfloat x, GLfloat y, GLfloat z, GLfloat w)
@@ -107,8 +115,7 @@ Shader & Shader::SetVector4f(const char * name, GLfloat x, GLfloat y, GLfloat z,
 
 Shader & Shader::SetVector4f(const char * name, glm::vec4 & value)
 {
-	SetVector4f(name, value.x, value.y, value.z, value.w);
-	return *this;
+	return SetVector4f(name, value.x, value.y, value.z, value.w);	
 }
 
 Shader & Shader::SetMatrix4f(const char * name, glm::mat4 & value)

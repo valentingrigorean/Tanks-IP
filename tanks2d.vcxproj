@@ -126,6 +126,9 @@
     <None Include="src\ResourceManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Color.cpp" />
+    <ClCompile Include="src\GameLevel.cpp" />
+    <ClCompile Include="src\GameObject.cpp" />
     <ClCompile Include="src\GLFW\GLFWTimer.cpp" />
     <ClCompile Include="src\GTimer.cpp" />
     <ClCompile Include="src\io\GFile.cpp" />
@@ -140,9 +143,13 @@
     <ClCompile Include="src\Sprite.cpp" />
     <ClCompile Include="src\SpriteRenderer.cpp" />
     <ClCompile Include="src\Texture2D.cpp" />
+    <ClCompile Include="src\Transform2D.cpp" />
     <ClCompile Include="src\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Color.h" />
+    <ClInclude Include="src\GameLevel.h" />
+    <ClInclude Include="src\GameObject.h" />
     <ClInclude Include="src\GConstants.h" />
     <ClInclude Include="src\GError.h" />
     <ClInclude Include="src\GLFW\GLFWDisplay.h" />
@@ -155,11 +162,19 @@
     <ClInclude Include="src\Input.h" />
     <ClInclude Include="src\io\GFile.h" />
     <ClInclude Include="src\GRandom.h" />
+    <ClInclude Include="src\Point.h" />
+    <ClInclude Include="src\Rect.h" />
     <ClInclude Include="src\Shader.h" />
+    <ClInclude Include="src\Size.h" />
     <ClInclude Include="src\Sprite.h" />
     <ClInclude Include="src\SpriteRenderer.h" />
     <ClInclude Include="src\Texture2D.h" />
+    <ClInclude Include="src\Transform2D.h" />
     <ClInclude Include="src\Utils.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="resources\levels\info.txt" />
+    <Text Include="resources\levels\level1.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,6 +1,11 @@
 #include "SpriteRenderer.h"
 
 
+SpriteRender::SpriteRender()
+{
+
+}
+
 SpriteRender::SpriteRender(Shader& shader)
 {
 	_shader = shader;
@@ -12,22 +17,27 @@ SpriteRender::~SpriteRender()
 	glDeleteVertexArrays(1, &_vao);
 }
 
-void SpriteRender::DrawSprite(Sprite & sprite)
+void SpriteRender::DrawSprite(Shader & shader, Sprite & sprite, Transform2D & transform)
 {
-	_shader.Bind().
-		SetMatrix4f("model",sprite.GetModel()).
-		SetVector3f("spriteColor",sprite.GetColor());
+	shader.Bind().
+		SetMatrix4f("model", transform.GetModel()).
+		SetVector3f("spriteColor", sprite.GetColor());
 
 	sprite.GetTexture().Bind();
 
 	glBindVertexArray(_vao);
-	
+
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 
 	sprite.GetTexture().UnBind();
 
 	_shader.UnBind();
 	glBindVertexArray(0);
+}
+
+void SpriteRender::DrawSprite(Sprite & sprite, Transform2D & transform)
+{
+	DrawSprite(_shader, sprite, transform);
 }
 
 void SpriteRender::Init()

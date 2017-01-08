@@ -3,6 +3,7 @@
 #include "Input.h"
 #include "GTimer.h"
 #include "SpriteRenderer.h"
+#include "GameObject.h"
 
 enum GameState
 {
@@ -29,5 +30,6 @@ private:
 	Input *_input;
 	GTimer *_timer;
 	SpriteRender *_render;
+	GameObject *_background;
 	std::vector<Sprite*> _spirtes;	
 };
