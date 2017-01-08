@@ -44,10 +44,15 @@ Texture2D& ResourceManager::LoadTexture(const char * file, std::string name)
 void ResourceManager::Clear()
 {
 	for (auto it : ShaderMap)
+	{
+		it.second->Dispose();
 		delete it.second;
+	}
 	for (auto it : TextureMap)
+	{
+		it.second->Dispose();
 		delete it.second;
-
+	}
 	ShaderMap.clear();
 	TextureMap.clear();
 }

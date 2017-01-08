@@ -134,6 +134,7 @@
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\GLFW\GLFWDisplay.cpp" />
     <ClCompile Include="src\GLFW\GLFWInput.cpp" />
+    <ClCompile Include="src\GRandom.cpp" />
     <ClCompile Include="src\ResourceManager.cpp" />
     <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\Sprite.cpp" />
@@ -153,6 +154,7 @@
     <ClInclude Include="src\GTimer.h" />
     <ClInclude Include="src\Input.h" />
     <ClInclude Include="src\io\GFile.h" />
+    <ClInclude Include="src\GRandom.h" />
     <ClInclude Include="src\Shader.h" />
     <ClInclude Include="src\Sprite.h" />
     <ClInclude Include="src\SpriteRenderer.h" />

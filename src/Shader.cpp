@@ -7,10 +7,11 @@ Shader::Shader()
 	_id = glCreateProgram();
 }
 
-Shader::~Shader()
+void Shader::Dispose()
 {
-	//glDeleteProgram(_id);
+	glDeleteProgram(_id);
 }
+
 
 GLuint Shader::GetId() const
 {
@@ -31,7 +32,7 @@ Shader & Shader::AttachSource(const char * sourceCode, GLenum type)
 	glShaderSource(shader, 1, &sourceCode, nullptr);
 	glCompileShader(shader);
 
-	if (!CheckIfValid(shader,false))
+	if (!CheckIfValid(shader, false))
 		PrintInfoLog(shader, false);
 
 	glAttachShader(_id, shader);
@@ -43,8 +44,8 @@ Shader & Shader::AttachSource(const char * sourceCode, GLenum type)
 Shader & Shader::Link()
 {
 	glLinkProgram(_id);
-	if (!CheckIfValid(_id,true))	
-		PrintInfoLog(_id, true);	
+	if (!CheckIfValid(_id, true))
+		PrintInfoLog(_id, true);
 	for (auto& shader : _shaders)
 		glDetachShader(_id, shader);
 	return *this;
@@ -132,7 +133,7 @@ GLenum Shader::GetProgramType(const char * filePath)
 	return 0;
 }
 
-bool Shader::CheckIfValid(GLuint id,bool isProgram)
+bool Shader::CheckIfValid(GLuint id, bool isProgram)
 {
 	GLint status = 0;
 	if (isProgram)
@@ -155,11 +156,11 @@ void Shader::PrintInfoLog(GLuint id, bool isProgram)
 		glDeleteProgram(id);
 		break;
 	case false:
-		glGetShaderiv(id, GL_INFO_LOG_LENGTH, &size);	
+		glGetShaderiv(id, GL_INFO_LOG_LENGTH, &size);
 		buffer.resize(size);
 		glGetShaderInfoLog(id, size, nullptr, &buffer[0]);
 		glDeleteShader(id);
-		break;	
+		break;
 	}
 	FATAL_ERROR(&buffer[0]);
 }

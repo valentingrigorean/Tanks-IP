@@ -29,5 +29,5 @@ private:
 	Input *_input;
 	GTimer *_timer;
 	SpriteRender *_render;
-	Sprite *_sprite;
+	std::vector<Sprite*> _spirtes;	
 };

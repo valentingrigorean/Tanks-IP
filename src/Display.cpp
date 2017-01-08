@@ -32,7 +32,7 @@ void Display::SetVSync(bool vsync)
 	_vsync = vsync;
 }
 
-inline bool Display::GetVSync() const
+bool Display::GetVSync() const
 {
 	return _vsync;
 }

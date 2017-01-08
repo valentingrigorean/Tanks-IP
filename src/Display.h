@@ -12,7 +12,7 @@ public:
 	int GetHeight() const;
 
 	void SetVSync(bool vsync);
-	inline bool GetVSync() const;
+	bool GetVSync() const;
 
 	void Clear();
 

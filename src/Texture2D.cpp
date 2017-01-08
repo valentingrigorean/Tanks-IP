@@ -13,9 +13,9 @@ Texture2D::Texture2D()
 	SetConfig(GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 }
 
-Texture2D::~Texture2D()
+void Texture2D::Dispose()
 {
-	//glDeleteTextures(1, &_id);
+	glDeleteTextures(1, &_id);
 }
 
 GLuint Texture2D::GetId() const

@@ -5,8 +5,8 @@ class GTimer
 public:
 	~GTimer() {}
 	virtual void Update() = 0;
-	inline float GetDeltaTime();
-	inline virtual double StartTime() = 0;
+	float GetDeltaTime();
+	virtual double StartTime() = 0;
 	float GetFps() const;
 protected:
 	GTimer();	

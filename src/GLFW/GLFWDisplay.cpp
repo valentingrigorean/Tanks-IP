@@ -3,6 +3,7 @@
 
 GLFWDisplay::GLFWDisplay(int width, int height, std::string & title) :Display(width, height, title)
 {
+	
 }
 
 GLFWDisplay::~GLFWDisplay()
@@ -23,6 +24,7 @@ void GLFWDisplay::Init()
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
+	
 	_window = glfwCreateWindow(GetWidth(), GetHeight(), GetTitle().c_str(), nullptr, nullptr);
 
 	glfwMakeContextCurrent(_window);
@@ -35,15 +37,17 @@ void GLFWDisplay::Init()
 	glewExperimental = GL_TRUE;
 	if (glewInit() != GLEW_OK)
 		FATAL_ERROR("Failed to initialize glew");
+
+	glfwSwapInterval(0);
 #if DEBUG
-	std::cout << "OpenGL " << glGetString(GL_VERSION) << " ,GLSL " 
-		<< glGetString(GL_SHADING_LANGUAGE_VERSION) <<std::endl;
+	std::cout << "OpenGL " << glGetString(GL_VERSION) << " ,GLSL "
+		<< glGetString(GL_SHADING_LANGUAGE_VERSION) << std::endl;
 #endif
 }
 
 void GLFWDisplay::SwapBuffers()
 {
-	glfwSwapBuffers(_window);
+	glfwSwapBuffers(_window);	
 }
 
 void GLFWDisplay::SetTitle(std::string & title)

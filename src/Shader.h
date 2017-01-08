@@ -6,7 +6,8 @@ class Shader
 {
 public:
 	Shader();
-	~Shader();
+	
+	void Dispose();
 
 	GLuint GetId() const;
 

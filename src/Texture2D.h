@@ -5,8 +5,9 @@
 class Texture2D
 {
 public:
-	Texture2D();
-	~Texture2D();
+	Texture2D();	
+
+	void Dispose();
 
 	GLuint GetId() const;
 
