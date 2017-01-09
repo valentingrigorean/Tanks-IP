@@ -1,13 +1,13 @@
 #pragma once
-#include "Rect.h"
+#include "Point.h"
+#include "Size.h"
 #include <glm/glm.hpp>
 #include <glm/gtx/transform.hpp>
 
 class Transform2D
 {
 public:
-	Transform2D();
-	Transform2D(Rect rect);
+	Transform2D();	
 	Transform2D(Point pos,Size size);
 	Transform2D(float x, float y, float width, float height,
 		float rotation = 0.f, float scale = 1.f);
@@ -24,9 +24,12 @@ public:
 	float GetRotate() const;
 	void SetRotate(float rotate);
 
+	void Move(float x, float y);
+
 	glm::mat4 GetModel() const;
 private:
-	Rect _rect;
+	Size _size;
+	Point _position;
 	float _rotate;
 	float _scale;
 };

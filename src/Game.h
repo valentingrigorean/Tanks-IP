@@ -1,9 +1,13 @@
 #pragma once
+#include <anax/World.hpp>
+
 #include "Display.h"
 #include "Input.h"
-#include "GTimer.h"
 #include "SpriteRenderer.h"
-#include "GameLevel.h"
+#include "Factory.h"
+#include "systems/SpriteRenderingSystem.h"
+#include "systems/MovementSystem.h"
+
 
 enum GameState
 {
@@ -16,21 +20,21 @@ enum GameState
 class Game
 {
 public:
-	Game(Display *display,Input *input,GTimer* timer);
+	Game(Display *display,Input *input);
 	~Game();
 
 	void Init();
-	void Update(float dt);
-	void ProcessInput(float dt);
+	void Update(float dt);	
 	void Render();
 	void MainLoop();
+private:
+	void InitResources();
 private:
 	GameState _state;
 	Display *_display;
 	Input *_input;
-	GTimer *_timer;
 	SpriteRender *_render;
-	GameObject *_background;
-	std::vector<GameLevel> _levels;
-	int _currentLevel;
+	SpriteRenderingSystem _renderSystem;
+
+	anax::World _world;
 };

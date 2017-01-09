@@ -1,7 +1,6 @@
 #include "Game.h"
 #include "GLFW\GLFWInput.h"
 #include "GLFW\GLFWDisplay.h"
-#include "GLFW\GLFWTimer.h"
 
 const int SCREEN_WIDTH = 600;
 const int SCREEN_HEIGHT = 600;
@@ -12,8 +11,8 @@ int main(int argc,char *argv[])
 	display.Init();
 	GLFWInput input;
 	input.RegisterWindow(display.GetNativeWindow());
-	GLFWTimer timer;
-	Game tanks(&display, &input,&timer);
+	
+	Game tanks(&display, &input);
 	tanks.Init();
 	tanks.MainLoop();	
 	return 0;

@@ -48,6 +48,7 @@ Shader & Shader::Link()
 		PrintInfoLog(_id, true);
 	for (auto& shader : _shaders)
 		glDetachShader(_id, shader);
+	_shaders.clear();
 	return *this;
 }
 
