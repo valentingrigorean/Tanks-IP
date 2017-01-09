@@ -1,4 +1,10 @@
 #include "MovementSystem.h"
+#include "../components/TransformComponent.h"
+#include "../components/VelocityComponent.h"
+
+MovementSystem::MovementSystem()
+{
+}
 
 void MovementSystem::Update(double deltaTime)
 {

@@ -1,11 +1,14 @@
+#include "Factory.h"
+
 #include <anax/World.hpp>
 #include "io/GFile.h"
 #include "ResourceManager.h"
 
-#include "Factory.h"
 #include "components/SpriteComponent.h"
 #include "components/CollisionComponent.h"
 #include "components/TransformComponent.h"
+#include "components/InputComponent.h"
+#include "components/VelocityComponent.h"
 
 std::vector<anax::Entity> Factory::LoadLevel(anax::World & world, std::string & file, int lvlWidth, int lvlHeight)
 {
@@ -50,11 +53,18 @@ std::vector<anax::Entity> Factory::LoadLevel(anax::World & world, std::string & 
 anax::Entity Factory::CreateTank(anax::World & world, Texture2D texture, Point pos, Size size)
 {
 	auto& e = world.createEntity();
-	e.addComponent<SpriteComponent>().sprite.SetTexture(texture);
+
+	auto& sprite = e.addComponent<SpriteComponent>().sprite;	
+	sprite.SetTexture(texture);
+
 	auto& transform = e.addComponent<TransformComponent>().transform;
 	transform.SetPosition(pos);
 	transform.SetSize(size);
+
+	e.addComponent<VelocityComponent>();	
+
 	e.addComponent<CollisionComponent>().boudingBox = Rect(pos, size);
+	
 	e.activate();
 	return e;
 }

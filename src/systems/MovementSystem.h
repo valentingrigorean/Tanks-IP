@@ -1,12 +1,14 @@
 #pragma once
 
 #include <anax/System.hpp>
-#include "../components/TransformComponent.h"
-#include "../components/VelocityComponent.h"
 
-class MovementSystem:anax::System<anax::Requires<TransformComponent, VelocityComponent>>
+struct TransformComponent;
+struct VelocityComponent;
+
+class MovementSystem : public anax::System<anax::Requires<TransformComponent, VelocityComponent>>
 {
 public:
+	MovementSystem();
 	void Update(double deltaTime);
 };
 

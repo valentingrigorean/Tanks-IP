@@ -140,6 +140,7 @@
     <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\Sprite.cpp" />
     <ClCompile Include="src\SpriteRenderer.cpp" />
+    <ClCompile Include="src\systems\InputSystem.cpp" />
     <ClCompile Include="src\systems\MovementSystem.cpp" />
     <ClCompile Include="src\systems\SpriteRenderingSystem.cpp" />
     <ClCompile Include="src\Texture2D.cpp" />
@@ -149,6 +150,8 @@
   <ItemGroup>
     <ClInclude Include="src\Color.h" />
     <ClInclude Include="src\components\CollisionComponent.h" />
+    <ClInclude Include="src\components\MoveableComponent.h" />
+    <ClInclude Include="src\components\InputComponent.h" />
     <ClInclude Include="src\components\SpriteComponent.h" />
     <ClInclude Include="src\components\TransformComponent.h" />
     <ClInclude Include="src\components\VelocityComponent.h" />
@@ -170,6 +173,7 @@
     <ClInclude Include="src\Size.h" />
     <ClInclude Include="src\Sprite.h" />
     <ClInclude Include="src\SpriteRenderer.h" />
+    <ClInclude Include="src\systems\InputSystem.h" />
     <ClInclude Include="src\systems\MovementSystem.h" />
     <ClInclude Include="src\systems\SpriteRenderingSystem.h" />
     <ClInclude Include="src\Texture2D.h" />

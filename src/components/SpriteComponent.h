@@ -2,7 +2,7 @@
 #include "../Sprite.h"
 #include <anax/Component.hpp>
 
-struct SpriteComponent:anax::Component
+struct SpriteComponent :anax::Component
 {
 	Sprite sprite;
 };

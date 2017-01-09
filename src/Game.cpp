@@ -4,6 +4,7 @@
 
 #include "components/SpriteComponent.h"
 #include "components/TransformComponent.h"
+#include "components/InputComponent.h"
 
 #include "Game.h"
 #include "Utils.h"
@@ -60,16 +61,23 @@ void Game::Init()
 
 	e1.activate();
 
+	_inputSystem.SetInput(_input);
+
 	_world.addSystem(_renderSystem);
+	_world.addSystem(_inputSystem);
+	_world.addSystem(_moveSystem);
 
-
-	Factory::LoadLevel(_world, GetLevelPath("level1.txt"), 
+	auto tanks = Factory::LoadLevel(_world, GetLevelPath("level1.txt"), 
 		_display->GetWidth(), _display->GetHeight());
+	tanks[0].addComponent<InputComponent>();
+	tanks[0].activate();
 }
 
 void Game::Update(float dt)
 {
 	_world.refresh();
+	_inputSystem.Update();
+	_moveSystem.Update(dt);
 }
 
 void Game::Render()

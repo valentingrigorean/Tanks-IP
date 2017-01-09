@@ -21,7 +21,9 @@ void SpriteRender::DrawSprite(Shader & shader, Sprite & sprite, Transform2D & tr
 {
 	shader.Bind().
 		SetMatrix4f("model", transform.GetModel()).
-		SetVector3f("spriteColor", sprite.GetColor());
+		SetVector3f("spriteColor", sprite.GetColor()).
+		SetInteger("flipX", sprite.GetFlipX()).
+		SetInteger("flipY", sprite.GetFlipY());
 
 	sprite.GetTexture().Bind();
 

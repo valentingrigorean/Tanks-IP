@@ -7,6 +7,7 @@
 #include "Factory.h"
 #include "systems/SpriteRenderingSystem.h"
 #include "systems/MovementSystem.h"
+#include "systems/InputSystem.h"
 
 
 enum GameState
@@ -34,7 +35,10 @@ private:
 	Display *_display;
 	Input *_input;
 	SpriteRender *_render;
+
 	SpriteRenderingSystem _renderSystem;
+	InputSystem _inputSystem;
+	MovementSystem _moveSystem;
 
 	anax::World _world;
 };

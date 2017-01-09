@@ -20,7 +20,7 @@ public:
 
 	Shader& Bind();
 	Shader& UnBind();
-
+	
 	Shader& SetFloat(const char* name, GLfloat value);
 	Shader& SetInteger(const char* name, GLint);
 

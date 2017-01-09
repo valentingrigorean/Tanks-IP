@@ -27,3 +27,28 @@ Color & Sprite::GetColor()
 {
 	return _color;
 }
+
+void Sprite::SetColor(Color & color)
+{
+	_color = color;
+}
+
+void Sprite::SetFlipX(bool value)
+{
+	_flipX = value;
+}
+
+bool Sprite::GetFlipX() const
+{
+	return _flipX;
+}
+
+void Sprite::SetFlipY(bool value)
+{
+	_flipY = value;
+}
+
+bool Sprite::GetFlipY() const
+{
+	return _flipY;
+}

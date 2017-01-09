@@ -64,6 +64,8 @@ Shader & Shader::UnBind()
 	return *this;
 }
 
+
+
 Shader & Shader::SetFloat(const char * name, GLfloat value)
 {
 	glUniform1f(GetIdForName(name), value);

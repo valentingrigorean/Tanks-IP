@@ -6,7 +6,7 @@
 struct SpriteComponent;
 struct TransformComponent;
 
-class SpriteRenderingSystem : public anax::System<anax::Requires<SpriteComponent,TransformComponent>>
+class SpriteRenderingSystem : public anax::System<anax::Requires<TransformComponent, SpriteComponent>>
 {
 public:
 	SpriteRenderingSystem();
