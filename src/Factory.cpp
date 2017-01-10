@@ -63,7 +63,7 @@ anax::Entity Factory::CreateTank(anax::World & world, Texture2D texture, Point p
 
 	e.addComponent<VelocityComponent>();	
 
-	e.addComponent<CollisionComponent>().boudingBox = Rect(pos, size);
+	e.addComponent<CollisionComponent>().causeEvents = true;
 	
 	e.activate();
 	return e;
@@ -83,7 +83,6 @@ void Factory::CreateTile(anax::World & world, Texture2D texture, Point pos, Size
 	auto& transform = e.addComponent<TransformComponent>().transform;
 	transform.SetPosition(pos);
 	transform.SetSize(size);
-	e.addComponent<CollisionComponent>().boudingBox = Rect(pos, size);
+	e.addComponent<CollisionComponent>();
 	e.activate();
 }
-

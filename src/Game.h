@@ -5,9 +5,11 @@
 #include "Input.h"
 #include "SpriteRenderer.h"
 #include "Factory.h"
+
 #include "systems/SpriteRenderingSystem.h"
 #include "systems/MovementSystem.h"
 #include "systems/InputSystem.h"
+#include "systems/CollisionSystem.h"
 
 
 enum GameState
@@ -18,7 +20,7 @@ enum GameState
 	GAME_EXIT
 };
 
-class Game
+class Game: CollisionSystem::ICollisionListener
 {
 public:
 	Game(Display *display,Input *input);
@@ -26,10 +28,11 @@ public:
 
 	void Init();
 	void Update(float dt);	
-	void Render();
+	void Render();	
 	void MainLoop();
 private:
 	void InitResources();
+	void OnCollisionOccured(const anax::Entity & e1, const anax::Entity & e2);
 private:
 	GameState _state;
 	Display *_display;
@@ -39,6 +42,7 @@ private:
 	SpriteRenderingSystem _renderSystem;
 	InputSystem _inputSystem;
 	MovementSystem _moveSystem;
+	CollisionSystem _collisionSystem;
 
 	anax::World _world;
 };

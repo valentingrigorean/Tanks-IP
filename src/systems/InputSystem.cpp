@@ -1,4 +1,8 @@
 #include "InputSystem.h"
+
+#include <anax/World.hpp>
+#include <iostream>
+
 #include "../components/InputComponent.h"
 #include "../components/VelocityComponent.h"
 #include "../components/TransformComponent.h"
@@ -16,6 +20,8 @@ void InputSystem::Update()
 		auto& velocity = entity.getComponent<VelocityComponent>();
 		auto& input = entity.getComponent<InputComponent>();
 
+		
+
 		if (_input->GetKey(input.keys.up))
 		{
 			velocity.velocity.y = -velocity.speed;
@@ -31,7 +37,7 @@ void InputSystem::Update()
 			if (entity.hasComponent<TransformComponent>())
 			{
 				auto& transform = entity.getComponent<TransformComponent>().transform;
-				transform.SetRotate(240);
+				transform.SetRotate(180.f);
 			}
 		}
 		if (_input->GetKey(input.keys.left))
@@ -40,6 +46,7 @@ void InputSystem::Update()
 			if (entity.hasComponent<TransformComponent>())
 			{
 				auto& transform = entity.getComponent<TransformComponent>().transform;
+				transform.SetRotate(-90.f);
 			}
 		}
 		if (_input->GetKey(input.keys.right))
@@ -48,10 +55,9 @@ void InputSystem::Update()
 			if (entity.hasComponent<TransformComponent>())
 			{
 				auto& transform = entity.getComponent<TransformComponent>().transform;
+				transform.SetRotate(90.f);
 			}
-		}
-
-		
+		}		
 	}
 }
 

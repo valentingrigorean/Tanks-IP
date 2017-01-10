@@ -23,4 +23,13 @@ struct Rect
 		size.width = s.width;
 		size.height = s.height;
 	}
+
+	// check if rects are intersected with AABB collision
+	inline bool IsIntersected(Rect &rect2)
+	{
+		return point.x < rect2.point.x + rect2.size.width &&
+			point.x + size.width > rect2.point.x &&
+			point.y < rect2.point.y + rect2.size.height &&
+			size.height + point.y > rect2.point.y;
+	}
 }; 

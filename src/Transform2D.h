@@ -21,7 +21,9 @@ public:
 	float GetScale() const;
 	void SetScale(float scale);
 
+	// get rotation in degrees
 	float GetRotate() const;
+	// set rotation in degrees
 	void SetRotate(float rotate);
 
 	void Move(float x, float y);

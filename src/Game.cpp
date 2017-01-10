@@ -5,6 +5,7 @@
 #include "components/SpriteComponent.h"
 #include "components/TransformComponent.h"
 #include "components/InputComponent.h"
+#include "components/VelocityComponent.h"
 
 #include "Game.h"
 #include "Utils.h"
@@ -29,8 +30,7 @@ Game::Game(Display * display, Input * input) :_display(display), _input(input)
 
 Game::~Game()
 {
-	delete _render;	
-
+	delete _render;
 	_world.removeAllSystems();
 	ResourceManager::Clear();
 }
@@ -63,19 +63,25 @@ void Game::Init()
 
 	_inputSystem.SetInput(_input);
 
+	_collisionSystem.AddListener(*this);
+
 	_world.addSystem(_renderSystem);
 	_world.addSystem(_inputSystem);
 	_world.addSystem(_moveSystem);
+	_world.addSystem(_collisionSystem);
 
 	auto tanks = Factory::LoadLevel(_world, GetLevelPath("level1.txt"), 
 		_display->GetWidth(), _display->GetHeight());
 	tanks[0].addComponent<InputComponent>();
+	tanks[0].getComponent<SpriteComponent>().sprite.SetColor(Color(1.f,0.5f,0.5f));
 	tanks[0].activate();
 }
 
 void Game::Update(float dt)
 {
 	_world.refresh();
+	
+	_collisionSystem.Update(dt);
 	_inputSystem.Update();
 	_moveSystem.Update(dt);
 }
@@ -85,6 +91,26 @@ void Game::Render()
 	_display->Clear();
 	_renderSystem.Render();
 	_display->SwapBuffers();
+}
+
+void Game::OnCollisionOccured(const anax::Entity& e1, const anax::Entity& e2)
+{
+	if (e1.hasComponent<VelocityComponent>())
+	{
+		auto& velocity = e1.getComponent<VelocityComponent>().velocity;
+		auto& transform = e1.getComponent<TransformComponent>().transform;
+
+		velocity = -velocity;
+		transform.Move(velocity.x, velocity.y);
+	}
+	else if(e2.hasComponent<VelocityComponent>())
+	{
+		auto& velocity = e2.getComponent<VelocityComponent>().velocity;
+		auto& transform = e2.getComponent<TransformComponent>().transform;
+
+		velocity = -velocity;
+		transform.Move(velocity.x, velocity.y);
+	}
 }
 
 void Game::MainLoop()

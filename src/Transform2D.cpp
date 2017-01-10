@@ -55,7 +55,7 @@ float Transform2D::GetRotate() const
 
 void Transform2D::SetRotate(float rotate)
 {
-	_rotate = rotate;
+	_rotate = glm::radians(rotate);
 }
 
 void Transform2D::Move(float x, float y)
