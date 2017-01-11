@@ -1,16 +1,13 @@
 #pragma once
-#include <anax/World.hpp>
 
 #include "Display.h"
 #include "Input.h"
 #include "SpriteRenderer.h"
-#include "Factory.h"
+#include "LevelGame.h"
 
 #include "systems/SpriteRenderingSystem.h"
-#include "systems/MovementSystem.h"
 #include "systems/InputSystem.h"
-#include "systems/CollisionSystem.h"
-
+#include "systems/PhysicsSystem.h"
 
 enum GameState
 {
@@ -20,7 +17,7 @@ enum GameState
 	GAME_EXIT
 };
 
-class Game: CollisionSystem::ICollisionListener
+class Game: PhysicsSystem::ICollisionListener
 {
 public:
 	Game(Display *display,Input *input);
@@ -31,8 +28,10 @@ public:
 	void Render();	
 	void MainLoop();
 private:
+	void InitSystems(anax::World& world,b2World &pWorld);
 	void InitResources();
-	void OnCollisionOccured(const anax::Entity & e1, const anax::Entity & e2);
+	void OnCollisionOccured(CollisionHandler *collision);
+	void LoadLevel(std::string levelPath);
 private:
 	GameState _state;
 	Display *_display;
@@ -41,8 +40,6 @@ private:
 
 	SpriteRenderingSystem _renderSystem;
 	InputSystem _inputSystem;
-	MovementSystem _moveSystem;
-	CollisionSystem _collisionSystem;
-
-	anax::World _world;
+	PhysicsSystem _physicsSystem;
+	LevelGame *_levelGame;
 };

@@ -3,9 +3,12 @@
 #include <anax/World.hpp>
 #include <iostream>
 
+#include "../GConstants.h"
+
 #include "../components/InputComponent.h"
-#include "../components/VelocityComponent.h"
+#include "../components/BodyComponent.h"
 #include "../components/TransformComponent.h"
+#include "../components/TankComponent.h"
 
 InputSystem::InputSystem()
 {
@@ -14,50 +17,32 @@ InputSystem::InputSystem()
 void InputSystem::Update()
 {
 	auto entities = getEntities();
-	
 	for (auto& entity : entities)
 	{
-		auto& velocity = entity.getComponent<VelocityComponent>();
-		auto& input = entity.getComponent<InputComponent>();
+		auto& body = entity.getComponent<BodyComponent>().body;
+		auto& input = entity.getComponent<InputComponent>().keys;
 
-		
-
-		if (_input->GetKey(input.keys.up))
+		if (_input->GetKey(input.up))
 		{
-			velocity.velocity.y = -velocity.speed;
-			if (entity.hasComponent<TransformComponent>())
-			{
-				auto& transform = entity.getComponent<TransformComponent>().transform;
-				transform.SetRotate(0);
-			}
+			SetData(entity, UP);
+			continue;
 		}
-		if (_input->GetKey(input.keys.down))
+		if (_input->GetKey(input.down))
 		{
-			velocity.velocity.y = velocity.speed;
-			if (entity.hasComponent<TransformComponent>())
-			{
-				auto& transform = entity.getComponent<TransformComponent>().transform;
-				transform.SetRotate(180.f);
-			}
+			SetData(entity, DOWN);
+			continue;
 		}
-		if (_input->GetKey(input.keys.left))
+		if (_input->GetKey(input.left))
 		{
-			velocity.velocity.x = -velocity.speed;
-			if (entity.hasComponent<TransformComponent>())
-			{
-				auto& transform = entity.getComponent<TransformComponent>().transform;
-				transform.SetRotate(-90.f);
-			}
+			SetData(entity, LEFT);
+			continue;
 		}
-		if (_input->GetKey(input.keys.right))
+		if (_input->GetKey(input.right))
 		{
-			velocity.velocity.x = velocity.speed;
-			if (entity.hasComponent<TransformComponent>())
-			{
-				auto& transform = entity.getComponent<TransformComponent>().transform;
-				transform.SetRotate(90.f);
-			}
-		}		
+			SetData(entity, RIGHT);
+			continue;
+		}
+		SetData(entity, DIRECTION::UP, true);
 	}
 }
 
@@ -69,4 +54,46 @@ Input * InputSystem::GetInput() const
 void InputSystem::SetInput(Input * input)
 {
 	_input = input;
+}
+
+void InputSystem::SetData(anax::Entity & e, DIRECTION dir,bool idle)
+{
+	if (!e.hasComponent<TankComponent>()) return;	
+	if (!e.hasComponent<BodyComponent>()) return;
+	auto& tankComp = e.getComponent<TankComponent>();
+	auto& body = e.getComponent<BodyComponent>().body;
+
+	if (idle)
+	{
+		body->SetLinearVelocity(b2Vec2_zero);
+		return;
+	}
+
+	tankComp.direction = dir;
+	b2Vec2 velocity = body->GetLinearVelocity();
+	float rotation;
+
+	auto speed = CONVERT_MPP(tankComp.speed);
+	switch (dir)
+	{
+	case DIRECTION::UP:
+		velocity.y = -speed;
+		rotation = 0;
+		break;
+	case DIRECTION::DOWN:
+		velocity.y = speed;
+		rotation = 180.f;
+		break;
+	case DIRECTION::LEFT:
+		velocity.x = -speed;
+		rotation = -90.f;
+		break;
+	case DIRECTION::RIGHT:
+		velocity.x = speed;
+		rotation = 90.f;
+		break;
+	}
+
+	body->SetLinearVelocity(velocity);
+	body->SetTransform(body->GetPosition(), rotation);
 }

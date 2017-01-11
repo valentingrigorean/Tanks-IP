@@ -11,7 +11,7 @@ uniform bool flipY;
 void main()
 {
 	TexCoords = vertex.zw;
-	gl_Position = projection * model * vec4(
-		flipX ? -vertex.x : vertex.x,
-		flipY ? -vertex.y : vertex.y,0.0,1.0);
+	float x = flipX ? 1-vertex.x : vertex.x;
+	float y = flipY ? 1-vertex.y : vertex.y;
+	gl_Position = projection * model * vec4(x,y,0.0,1.0);
 }

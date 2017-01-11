@@ -70,11 +70,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>$(SolutionDir)engine\src;$(SolutionDir)include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)libs\soil\lib;$(SolutionDir)libs\glfw\lib-vc2015;$(SolutionDir)libs\glew\lib\Win32;$(SolutionDir)libs\anax;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)libs\soil\lib;$(SolutionDir)libs\glfw\lib-vc2015;$(SolutionDir)libs\glew\lib\Win32;$(SolutionDir)libs\anax;$(SolutionDir)libs\box2d;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>$(SolutionDir)engine\src;$(SolutionDir)include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)libs\soil\lib;$(SolutionDir)libs\glfw\lib-vc2015;$(SolutionDir)libs\glew\lib\Win32;$(SolutionDir)libs\anax;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)libs\soil\lib;$(SolutionDir)libs\glfw\lib-vc2015;$(SolutionDir)libs\glew\lib\Win32;$(SolutionDir)libs\anax;$(SolutionDir)libs\box2d;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -91,7 +91,7 @@
       <PreprocessorDefinitions>DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>anax_s.lib;SOIL.lib;glfw3.lib;glew32s.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>anax_s.lib;SOIL.lib;glfw3.lib;glew32s.lib;opengl32.lib;Box2d_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -118,7 +118,7 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>anax_s.lib;SOIL.lib;glfw3.lib;glew32s.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>anax_s.lib;SOIL.lib;glfw3.lib;glew32s.lib;opengl32.lib;Box2d_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -127,10 +127,11 @@
     <None Include="src\ResourceManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\BodyFactory.cpp" />
     <ClCompile Include="src\Color.cpp" />
-    <ClCompile Include="src\Factory.cpp" />
     <ClCompile Include="src\glfw\GLFWInput.cpp" />
     <ClCompile Include="src\io\GFile.cpp" />
+    <ClCompile Include="src\LevelGame.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Display.cpp" />
     <ClCompile Include="src\Game.cpp" />
@@ -140,22 +141,21 @@
     <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\Sprite.cpp" />
     <ClCompile Include="src\SpriteRenderer.cpp" />
-    <ClCompile Include="src\systems\CollisionSystem.cpp" />
     <ClCompile Include="src\systems\InputSystem.cpp" />
-    <ClCompile Include="src\systems\MovementSystem.cpp" />
+    <ClCompile Include="src\systems\PhysicsSystem.cpp" />
     <ClCompile Include="src\systems\SpriteRenderingSystem.cpp" />
     <ClCompile Include="src\Texture2D.cpp" />
     <ClCompile Include="src\Transform2D.cpp" />
     <ClCompile Include="src\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\BodyFactory.h" />
     <ClInclude Include="src\Color.h" />
-    <ClInclude Include="src\components\CollisionComponent.h" />
+    <ClInclude Include="src\components\BodyComponent.h" />
     <ClInclude Include="src\components\InputComponent.h" />
     <ClInclude Include="src\components\SpriteComponent.h" />
+    <ClInclude Include="src\components\TankComponent.h" />
     <ClInclude Include="src\components\TransformComponent.h" />
-    <ClInclude Include="src\components\VelocityComponent.h" />
-    <ClInclude Include="src\Factory.h" />
     <ClInclude Include="src\GConstants.h" />
     <ClInclude Include="src\GError.h" />
     <ClInclude Include="src\GLFW\GLFWDisplay.h" />
@@ -166,23 +166,25 @@
     <ClInclude Include="src\Input.h" />
     <ClInclude Include="src\io\GFile.h" />
     <ClInclude Include="src\GRandom.h" />
+    <ClInclude Include="src\LevelGame.h" />
     <ClInclude Include="src\Point.h" />
     <ClInclude Include="src\Rect.h" />
     <ClInclude Include="src\Shader.h" />
     <ClInclude Include="src\Size.h" />
     <ClInclude Include="src\Sprite.h" />
     <ClInclude Include="src\SpriteRenderer.h" />
-    <ClInclude Include="src\systems\CollisionSystem.h" />
     <ClInclude Include="src\systems\InputSystem.h" />
-    <ClInclude Include="src\systems\MovementSystem.h" />
+    <ClInclude Include="src\systems\PhysicsSystem.h" />
     <ClInclude Include="src\systems\SpriteRenderingSystem.h" />
     <ClInclude Include="src\Texture2D.h" />
     <ClInclude Include="src\Transform2D.h" />
     <ClInclude Include="src\Utils.h" />
+    <ClInclude Include="src\WorldConfig.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="resources\levels\info.txt" />
     <Text Include="resources\levels\level1.txt" />
+    <Text Include="resources\levels\test.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

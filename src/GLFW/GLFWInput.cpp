@@ -41,7 +41,7 @@ void GLFWInput::RegisterWindow(GLFWwindow * window)
 }
 
 void GLFWInput::KeyCallback(GLFWwindow * window, int key, int scancode, int action, int mods)
-{	
+{
 	switch (action)
 	{
 	case GLFW_RELEASE:

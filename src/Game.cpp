@@ -5,7 +5,6 @@
 #include "components/SpriteComponent.h"
 #include "components/TransformComponent.h"
 #include "components/InputComponent.h"
-#include "components/VelocityComponent.h"
 
 #include "Game.h"
 #include "Utils.h"
@@ -31,7 +30,6 @@ Game::Game(Display * display, Input * input) :_display(display), _input(input)
 Game::~Game()
 {
 	delete _render;
-	_world.removeAllSystems();
 	ResourceManager::Clear();
 }
 
@@ -40,7 +38,7 @@ void Game::Init()
 	InitResources();
 
 	auto projection = glm::ortho(0.0f, (float)_display->GetWidth(),
-		(float)_display->GetHeight(), 0.f, -1.f, 1.f);	
+		(float)_display->GetHeight(), 0.f, -1.f, 1.f);
 
 	auto shader = ResourceManager::GetShader("sprite");
 	shader.Bind()
@@ -48,42 +46,19 @@ void Game::Init()
 		.SetMatrix4f("projection", projection).UnBind();
 
 	_render = new SpriteRender(shader);
-	
+
 	_renderSystem.SetRenderer(*_render);
-
-	auto e1 = _world.createEntity();
-	e1.addComponent<SpriteComponent>().sprite.SetTexture(
-		ResourceManager::GetTexture("bg"));
-
-	auto& transform = e1.addComponent<TransformComponent>().transform;
-	transform.SetPosition(Point(0, 0));
-	transform.SetSize(Size(_display->GetWidth(),_display->GetHeight()));
-
-	e1.activate();
-
 	_inputSystem.SetInput(_input);
-
-	_collisionSystem.AddListener(*this);
-
-	_world.addSystem(_renderSystem);
-	_world.addSystem(_inputSystem);
-	_world.addSystem(_moveSystem);
-	_world.addSystem(_collisionSystem);
-
-	auto tanks = Factory::LoadLevel(_world, GetLevelPath("level1.txt"), 
-		_display->GetWidth(), _display->GetHeight());
-	tanks[0].addComponent<InputComponent>();
-	tanks[0].getComponent<SpriteComponent>().sprite.SetColor(Color(1.f,0.5f,0.5f));
-	tanks[0].activate();
+	_physicsSystem.SetListener(*this);
+	LoadLevel("level1.txt");
 }
 
 void Game::Update(float dt)
-{
-	_world.refresh();
-	
-	_collisionSystem.Update(dt);
+{	
+	_levelGame->EcsWorld().refresh();
+
 	_inputSystem.Update();
-	_moveSystem.Update(dt);
+	_physicsSystem.Update(dt);
 }
 
 void Game::Render()
@@ -93,24 +68,17 @@ void Game::Render()
 	_display->SwapBuffers();
 }
 
-void Game::OnCollisionOccured(const anax::Entity& e1, const anax::Entity& e2)
+void Game::LoadLevel(std::string levelPath)
 {
-	if (e1.hasComponent<VelocityComponent>())
-	{
-		auto& velocity = e1.getComponent<VelocityComponent>().velocity;
-		auto& transform = e1.getComponent<TransformComponent>().transform;
+	levelPath = GetLevelPath(levelPath.c_str());
+	if (_levelGame != nullptr)
+		delete _levelGame;
+	_levelGame = LevelGame::LoadLevel(levelPath, _display->GetWidth(), _display->GetHeight());
+	auto tank1 = _levelGame->GetTanks()[0];	
+	tank1.addComponent<InputComponent>();
+	tank1.activate();
 
-		velocity = -velocity;
-		transform.Move(velocity.x, velocity.y);
-	}
-	else if(e2.hasComponent<VelocityComponent>())
-	{
-		auto& velocity = e2.getComponent<VelocityComponent>().velocity;
-		auto& transform = e2.getComponent<TransformComponent>().transform;
-
-		velocity = -velocity;
-		transform.Move(velocity.x, velocity.y);
-	}
+	InitSystems(_levelGame->EcsWorld(),_levelGame->PhysicsWorld());
 }
 
 void Game::MainLoop()
@@ -120,7 +88,7 @@ void Game::MainLoop()
 	Seconds currentTime = 0; // Holds the current time
 	Seconds accumulator = 0; // Used to accumlate time in the game loop
 
-	
+
 	while (_state != GameState::GAME_EXIT)
 	{
 		_input->PollEvents();
@@ -130,8 +98,8 @@ void Game::MainLoop()
 		currentTime = newTime;
 
 		// cap the loop delta time
-		if (frameTime >= MAX_FRAME_TIME)		
-			frameTime = MAX_FRAME_TIME;		
+		if (frameTime >= MAX_FRAME_TIME)
+			frameTime = MAX_FRAME_TIME;
 
 		accumulator += frameTime;
 
@@ -149,6 +117,15 @@ void Game::MainLoop()
 	}
 }
 
+void Game::InitSystems(anax::World & world,b2World &pWorld)
+{
+	_physicsSystem.SetPhysicsWorld(&pWorld);
+	world.removeAllSystems();
+	world.addSystem(_renderSystem);
+	world.addSystem(_inputSystem);
+	world.addSystem(_physicsSystem);	
+}
+
 void Game::InitResources()
 {
 	ResourceManager::LoadShader(GetShaderPath("sprite.vert"), GetShaderPath("sprite.frag"), "sprite");
@@ -158,4 +135,9 @@ void Game::InitResources()
 	ResourceManager::LoadTexture(GetTexturePath("solid2.png"), "s2");
 	ResourceManager::LoadTexture(GetTexturePath("brick1.png"), "b1");
 	ResourceManager::LoadTexture(GetTexturePath("tank.png"), "t");
+}
+
+void Game::OnCollisionOccured(CollisionHandler * collision)
+{
+
 }

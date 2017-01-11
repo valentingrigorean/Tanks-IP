@@ -3,11 +3,11 @@
 
 struct Keys
 {
-	char up;
-	char down;
-	char left;
-	char right;
-	char shot;
+	int up;
+	int down;
+	int left;
+	int right;
+	int shot;
 
 	Keys()
 	{

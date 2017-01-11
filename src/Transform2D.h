@@ -16,6 +16,7 @@ public:
 	void SetSize(Size &size);
 
 	Point& GetPosition();
+	void SetPosition(float x, float y);
 	void SetPosition(Point &pos);
 
 	float GetScale() const;

@@ -33,6 +33,12 @@ Point & Transform2D::GetPosition()
 	return _position;
 }
 
+void Transform2D::SetPosition(float x,float y)
+{
+	_position.x = x;
+	_position.y = y;
+}
+
 void Transform2D::SetPosition(Point & pos)
 {
 	_position = pos;
@@ -55,7 +61,7 @@ float Transform2D::GetRotate() const
 
 void Transform2D::SetRotate(float rotate)
 {
-	_rotate = glm::radians(rotate);
+	_rotate = rotate;
 }
 
 void Transform2D::Move(float x, float y)
@@ -72,7 +78,7 @@ glm::mat4 Transform2D::GetModel() const
 	model = glm::translate(model, glm::vec3(_position.x,_position.y, 0.0f));
 
 	model = glm::translate(model, glm::vec3(offsetX, offsetY, 0.0f));
-	model = glm::rotate(model, _rotate, glm::vec3(0.0, 0.0f, 1.0f));
+	model = glm::rotate(model, glm::radians(_rotate), glm::vec3(0.0, 0.0f, 1.0f));
 	model = glm::translate(model, glm::vec3(-offsetX, -offsetY, 1.0f));
 
 	model = glm::scale(model, glm::vec3(_size.width,_size.height, _scale));
