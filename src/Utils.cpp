@@ -1,5 +1,5 @@
-#include "Utils.h"
-#include "GConstants.h"
+#include <tank/Utils.h>
+#include <tank/GConstants.h>
 
 std::string GetShaderPath(const char * file)
 {

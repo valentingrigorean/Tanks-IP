@@ -1,5 +1,5 @@
-#include "GLFWDisplay.h"
-#include "../GError.h"
+#include <tank/glfw/GLFWDisplay.h>
+#include <tank/GError.h>
 
 GLFWDisplay::GLFWDisplay(int width, int height, std::string & title) :Display(width, height, title)
 {

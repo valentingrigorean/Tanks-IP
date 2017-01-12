@@ -1,6 +1,6 @@
 #include <fstream>
-#include "GFile.h"
-#include "..\GError.h"
+#include <tank/io/GFile.h>
+#include <tank/GError.h>
 #include <stdio.h>
 
 #if _WIN32

@@ -1,5 +1,5 @@
-#include "ResourceManager.h"
-#include <soil\SOIL.h>
+#include <tank/ResourceManager.h>
+#include <soil/SOIL.h>
 
 std::map<std::string, Shader*> ResourceManager::ShaderMap;
 std::map<std::string, Texture2D*> ResourceManager::TextureMap;

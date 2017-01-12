@@ -1,14 +1,14 @@
-#include "InputSystem.h"
+#include <tank/systems/InputSystem.h>
 
 #include <anax/World.hpp>
 #include <iostream>
 
-#include "../GConstants.h"
+#include <tank/GConstants.h>
 
-#include "../components/InputComponent.h"
-#include "../components/BodyComponent.h"
-#include "../components/TransformComponent.h"
-#include "../components/TankComponent.h"
+#include <tank/components/InputComponent.h>
+#include <tank/components/BodyComponent.h>
+#include <tank/components/TransformComponent.h>
+#include <tank/components/TankComponent.h>
 
 InputSystem::InputSystem()
 {
@@ -70,10 +70,10 @@ void InputSystem::SetData(anax::Entity & e, DIRECTION dir,bool idle)
 	}
 
 	tankComp.direction = dir;
-	b2Vec2 velocity = body->GetLinearVelocity();
+	b2Vec2 velocity = b2Vec2_zero;
 	float rotation;
 
-	auto speed = CONVERT_MPP(tankComp.speed);
+	auto speed = tankComp.speed * P2M;
 	switch (dir)
 	{
 	case DIRECTION::UP:
@@ -95,5 +95,5 @@ void InputSystem::SetData(anax::Entity & e, DIRECTION dir,bool idle)
 	}
 
 	body->SetLinearVelocity(velocity);
-	body->SetTransform(body->GetPosition(), rotation);
+	body->SetTransform(body->GetPosition(),glm::radians(rotation));
 }

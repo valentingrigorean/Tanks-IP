@@ -1,6 +1,6 @@
-#include "SpriteRenderingSystem.h"
-#include "../components/SpriteComponent.h"
-#include "../components/TransformComponent.h"
+#include <tank/systems/SpriteRenderingSystem.h>
+#include <tank/components/SpriteComponent.h>
+#include <tank/components/TransformComponent.h>
 #include <anax/World.hpp>
 
 SpriteRenderingSystem::SpriteRenderingSystem()

@@ -1,20 +1,18 @@
-#include "LevelGame.h"
+#include <tank/LevelGame.h>
 
-#include "io/GFile.h"
-#include "Point.h"
-#include "Size.h"
-#include "ResourceManager.h"
-#include "BodyFactory.h"
+#include <tank/io/GFile.h>
+#include <tank/graphics/Point.h>
+#include <tank/graphics/Size.h>
+#include <tank/ResourceManager.h>
 
-#include "GConstants.h"
-
-#include "components/SpriteComponent.h"
-#include "components/TankComponent.h"
-#include "components/BodyComponent.h"
-#include "components/TransformComponent.h"
+#include <tank/BodyFactory.h>
+#include <tank/ComponentsFactory.h>
+#include <tank/GConstants.h>
 
 
-LevelGame::LevelGame():_physicsWorld(b2Vec2_zero)
+
+
+LevelGame::LevelGame() :_physicsWorld(b2Vec2_zero)
 {
 
 }
@@ -47,7 +45,7 @@ LevelGame * LevelGame::LoadLevel(std::string path, int levelWith, int levelHeigh
 }
 
 void LevelGame::LoadLevelInternal(std::string path, int levelWith, int levelHeight)
-{	
+{
 	auto lines = GFile::ReadAllLines(path.c_str());
 	auto height = lines.size();
 	auto unitWidth = 40.f;
@@ -62,42 +60,49 @@ void LevelGame::LoadLevelInternal(std::string path, int levelWith, int levelHeig
 			if (tileCode == '.') continue;
 			Point pos(unitWidth * x, unitHeight *y);
 			Size size((int)unitWidth, (int)unitHeight);
+			std::string texture = "";
+			TILE_TYPE tileType;
 			switch (tileCode)
 			{
 			case '#':
-				CreateEntity(ResourceManager::GetTexture("s2"), pos, size,false);
+				texture = "s2";
+				tileType = TILE_TYPE::SOLID;
 				break;
 			case '1':
-				CreateEntity(ResourceManager::GetTexture("s1"), pos, size,false);
+				texture = "s1";
+				tileType = TILE_TYPE::SOLID;
 				break;
 			case '2':
-				CreateEntity(ResourceManager::GetTexture("b1"), pos, size, false);
+				texture = "b1";
+				tileType = TILE_TYPE::DESTROYABLE;
 				break;
 			case 't':
-				auto tank = CreateEntity(ResourceManager::GetTexture("t"), pos, size,true);		
-				tank.addComponent<TankComponent>();
-				_tanks.push_back(tank);
+				texture = "t";
+				tileType = TILE_TYPE::DYNAMIC;
+				break;
+			}
+
+			auto entity = ComponentsFactory::CreateSprite(_ecsWorld, ResourceManager::GetTexture(texture), pos, size);
+			_levelObjects.push_back(GameObject(entity, pos, size, tileType));
+
+			switch (tileType)
+			{
+			case SOLID:
+				break;
+			case DESTROYABLE:
+				ComponentsFactory::AddHealth(entity, 1);
+				break;
+			case DYNAMIC:
+				ComponentsFactory::AddTank(entity);
+				_tanks.push_back(entity);
 				break;
 			}
 		}
-	}	
-}
+	}
 
-anax::Entity LevelGame::CreateEntity(Texture2D texture, Point pos, Size size,bool dynamicBody)
-{
-	auto& e = _ecsWorld.createEntity();
-	e.addComponent<SpriteComponent>().sprite.SetTexture(texture);
-
-	auto& transform = e.addComponent<TransformComponent>().transform;
-	transform.SetPosition(pos);
-	transform.SetSize(size);
-
-	auto body = BodyFactory::CreateRect(_physicsWorld, pos.x, pos.y, size.width, size.height, dynamicBody);
-
-	_allEntities.push_back(e);
-	body->SetUserData(&_allEntities[_allEntities.size()-1]);
-
-	e.addComponent<BodyComponent>().body = body;
-	e.activate();
-	return e;
+	for (std::size_t i = 0; i < _levelObjects.size(); i++)
+	{
+		auto gameObject = _levelObjects[i];
+		ComponentsFactory::AddBody(_physicsWorld, gameObject, &gameObject.entity);
+	}
 }

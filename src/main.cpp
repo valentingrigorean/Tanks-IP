@@ -1,6 +1,6 @@
-#include "Game.h"
-#include "GLFW\GLFWInput.h"
-#include "GLFW\GLFWDisplay.h"
+#include <tank/Game.h>
+#include <tank/glfw/GLFWInput.h>
+#include <tank/glfw/GLFWDisplay.h>
 
 const int SCREEN_WIDTH = 600;
 const int SCREEN_HEIGHT = 600;

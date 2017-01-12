@@ -1,4 +1,4 @@
-#include "GRandom.h"
+#include <tank/GRandom.h>
 
 #define INT_MAX 2147483647
 

@@ -2,14 +2,17 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <chrono>
 
-#include "components/SpriteComponent.h"
-#include "components/TransformComponent.h"
-#include "components/InputComponent.h"
+#include <tank/components/SpriteComponent.h>
+#include <tank/components/TransformComponent.h>
+#include <tank/components/InputComponent.h>
+#include <tank/components/BodyComponent.h>
 
-#include "Game.h"
-#include "Utils.h"
-#include "ResourceManager.h"
-#include "GRandom.h"
+#include <tank/Game.h>
+#include <tank/Utils.h>
+#include <tank/ResourceManager.h>
+#include <tank/GRandom.h>
+
+#include <tank/glfw/DebugDraw.h>
 
 
 /// A typedef that is used to represent a second
@@ -25,11 +28,13 @@ inline Seconds GetTimeNow()
 
 Game::Game(Display * display, Input * input) :_display(display), _input(input)
 {
+
 }
 
 Game::~Game()
 {
 	delete _render;
+	g_debugDraw.Destroy();
 	ResourceManager::Clear();
 }
 
@@ -37,8 +42,24 @@ void Game::Init()
 {
 	InitResources();
 
-	auto projection = glm::ortho(0.0f, (float)_display->GetWidth(),
+
+
+	g_debugDraw.Create();
+
+	uint32 flags = b2Draw::e_shapeBit |
+		b2Draw::e_jointBit |
+		b2Draw::e_aabbBit |
+		b2Draw::e_pairBit |
+		b2Draw::e_centerOfMassBit;
+
+	g_debugDraw.SetFlags(flags);
+
+	auto projection = glm::ortho(0.0f,(float)_display->GetWidth(),
 		(float)_display->GetHeight(), 0.f, -1.f, 1.f);
+
+	g_camera.m_width = _display->GetWidth();
+	g_camera.m_height = _display->GetHeight();
+	g_camera.BuildProjectionMatrix(glm::value_ptr(projection), -10);
 
 	auto shader = ResourceManager::GetShader("sprite");
 	shader.Bind()
@@ -54,7 +75,7 @@ void Game::Init()
 }
 
 void Game::Update(float dt)
-{	
+{
 	_levelGame->EcsWorld().refresh();
 
 	_inputSystem.Update();
@@ -64,7 +85,8 @@ void Game::Update(float dt)
 void Game::Render()
 {
 	_display->Clear();
-	_renderSystem.Render();
+	//_renderSystem.Render();
+	_levelGame->PhysicsWorld().DrawDebugData();
 	_display->SwapBuffers();
 }
 
@@ -74,11 +96,11 @@ void Game::LoadLevel(std::string levelPath)
 	if (_levelGame != nullptr)
 		delete _levelGame;
 	_levelGame = LevelGame::LoadLevel(levelPath, _display->GetWidth(), _display->GetHeight());
-	auto tank1 = _levelGame->GetTanks()[0];	
+	auto tank1 = _levelGame->GetTanks()[0];
 	tank1.addComponent<InputComponent>();
 	tank1.activate();
 
-	InitSystems(_levelGame->EcsWorld(),_levelGame->PhysicsWorld());
+	InitSystems(_levelGame->EcsWorld(), _levelGame->PhysicsWorld());
 }
 
 void Game::MainLoop()
@@ -117,13 +139,14 @@ void Game::MainLoop()
 	}
 }
 
-void Game::InitSystems(anax::World & world,b2World &pWorld)
+void Game::InitSystems(anax::World & world, b2World &pWorld)
 {
+	pWorld.SetDebugDraw(&g_debugDraw);
 	_physicsSystem.SetPhysicsWorld(&pWorld);
 	world.removeAllSystems();
 	world.addSystem(_renderSystem);
 	world.addSystem(_inputSystem);
-	world.addSystem(_physicsSystem);	
+	world.addSystem(_physicsSystem);
 }
 
 void Game::InitResources()
@@ -137,7 +160,7 @@ void Game::InitResources()
 	ResourceManager::LoadTexture(GetTexturePath("tank.png"), "t");
 }
 
-void Game::OnCollisionOccured(CollisionHandler * collision)
+void Game::OnCollisionOccured(anax::Entity* e1, anax::Entity* e2)
 {
-
+	
 }

@@ -1,7 +1,7 @@
 #include <ctype.h>
 
-#include "GLFWInput.h"
-#include "../GOpengl.h"
+#include <tank/glfw/GLFWInput.h>
+#include <tank/graphics/GOpengl.h>
 
 std::map<int, bool>  GLFWInput::KeysMap;
 std::map<GLFWInput*, std::vector<GLFWwindow*>> GLFWInput::RegisterMap;
