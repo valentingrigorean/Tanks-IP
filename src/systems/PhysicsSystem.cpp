@@ -7,7 +7,6 @@
 #include <tank/components/TransformComponent.h>
 
 
-
 PhysicsSystem::PhysicsSystem() :_listener(nullptr)
 {
 }
@@ -47,9 +46,9 @@ b2World * PhysicsSystem::GetPhysicsWorld()
 void PhysicsSystem::BeginContact(b2Contact * contact)
 {
 	if (_listener == nullptr) return;
-	auto e1 = static_cast<anax::Entity*>(
+	auto e1 = static_cast<GameObject*>(
 		contact->GetFixtureA()->GetBody()->GetUserData());
-	auto e2 = static_cast<anax::Entity*>(
+	auto e2 = static_cast<GameObject*>(
 		contact->GetFixtureB()->GetBody()->GetUserData());
 	_listener->OnCollisionOccured(e1, e2);
 }

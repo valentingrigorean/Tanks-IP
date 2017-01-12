@@ -12,13 +12,13 @@ SpriteRenderingSystem::SpriteRenderingSystem(SpriteRender & renderer) :_renderer
 }
 
 void SpriteRenderingSystem::Render()
-{	
+{
 	auto entities = getEntities();
 	for (auto& entity : entities)
 	{
-		auto& sprite = entity.getComponent<SpriteComponent>();
-		auto& transform = entity.getComponent<TransformComponent>();
-		_renderer->DrawSprite(sprite.sprite, transform.transform);
+		auto& sprite = entity.getComponent<SpriteComponent>().sprite;
+		auto& transform = entity.getComponent<TransformComponent>().transform;
+		_renderer->DrawSprite(sprite, transform);
 	}
 }
 

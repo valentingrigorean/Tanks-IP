@@ -9,6 +9,7 @@
 #include <tank/components/BodyComponent.h>
 #include <tank/components/TransformComponent.h>
 #include <tank/components/TankComponent.h>
+#include <tank/components/GunComponent.h>
 
 InputSystem::InputSystem()
 {
@@ -22,27 +23,33 @@ void InputSystem::Update()
 		auto& body = entity.getComponent<BodyComponent>().body;
 		auto& input = entity.getComponent<InputComponent>().keys;
 
+		if (_input->GetKey(input.shot))
+			SetFire(entity, true);
+		else
+			SetFire(entity, false);
+
 		if (_input->GetKey(input.up))
 		{
-			SetData(entity, UP);
+			SetDirection(entity, UP);
 			continue;
 		}
 		if (_input->GetKey(input.down))
 		{
-			SetData(entity, DOWN);
+			SetDirection(entity, DOWN);
 			continue;
 		}
 		if (_input->GetKey(input.left))
 		{
-			SetData(entity, LEFT);
+			SetDirection(entity, LEFT);
 			continue;
 		}
 		if (_input->GetKey(input.right))
 		{
-			SetData(entity, RIGHT);
+			SetDirection(entity, RIGHT);
 			continue;
 		}
-		SetData(entity, DIRECTION::UP, true);
+		
+		SetIdle(entity);
 	}
 }
 
@@ -56,18 +63,12 @@ void InputSystem::SetInput(Input * input)
 	_input = input;
 }
 
-void InputSystem::SetData(anax::Entity & e, DIRECTION dir,bool idle)
+void InputSystem::SetDirection(anax::Entity & e, DIRECTION dir)
 {
-	if (!e.hasComponent<TankComponent>()) return;	
+	if (!e.hasComponent<TankComponent>()) return;
 	if (!e.hasComponent<BodyComponent>()) return;
 	auto& tankComp = e.getComponent<TankComponent>();
 	auto& body = e.getComponent<BodyComponent>().body;
-
-	if (idle)
-	{
-		body->SetLinearVelocity(b2Vec2_zero);
-		return;
-	}
 
 	tankComp.direction = dir;
 	b2Vec2 velocity = b2Vec2_zero;
@@ -96,4 +97,23 @@ void InputSystem::SetData(anax::Entity & e, DIRECTION dir,bool idle)
 
 	body->SetLinearVelocity(velocity);
 	body->SetTransform(body->GetPosition(),glm::radians(rotation));
+}
+
+void InputSystem::SetIdle(anax::Entity & e)
+{
+	if (!e.hasComponent<TankComponent>()) return;
+	if (!e.hasComponent<BodyComponent>()) return;
+	auto& tankComp = e.getComponent<TankComponent>();
+	auto& body = e.getComponent<BodyComponent>().body;
+	body->SetLinearVelocity(b2Vec2_zero);
+}
+
+void InputSystem::SetFire(anax::Entity & e,bool isShooting)
+{
+	if (!e.hasComponent<TankComponent>()) return;
+	if (!e.hasComponent<GunComponent>()) return;
+	auto& tankComp = e.getComponent<TankComponent>();
+	auto& gunComp = e.getComponent<GunComponent>();
+	gunComp.shooting = isShooting;
+	gunComp.direction = tankComp.direction;	
 }

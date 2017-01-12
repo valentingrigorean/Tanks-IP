@@ -126,6 +126,9 @@
     <None Include="resources\shaders\sprite.vert" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\GameObject.cpp" />
+    <ClCompile Include="src\ObjectPool.cpp" />
+    <ClCompile Include="src\systems\GunControlSystem.cpp" />
     <ClCompile Include="src\BodyFactory.cpp" />
     <ClCompile Include="src\graphics\Color.cpp" />
     <ClCompile Include="src\ComponentsFactory.cpp" />
@@ -183,8 +186,10 @@
     <ClInclude Include="include\tank\Input.h" />
     <ClInclude Include="include\tank\io\GFile.h" />
     <ClInclude Include="include\tank\LevelGame.h" />
+    <ClInclude Include="include\tank\ObjectPool.h" />
     <ClInclude Include="include\tank\ResourceManager.h" />
     <ClInclude Include="include\tank\systems\CollisionSystem.h" />
+    <ClInclude Include="include\tank\systems\GunControlSystem.h" />
     <ClInclude Include="include\tank\systems\InputSystem.h" />
     <ClInclude Include="include\tank\systems\PhysicsSystem.h" />
     <ClInclude Include="include\tank\systems\SpriteRenderingSystem.h" />

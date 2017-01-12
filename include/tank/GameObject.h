@@ -20,13 +20,8 @@ struct GameObject
 	Size size;
 	TILE_TYPE tileType;
 	anax::Entity entity;
-	b2Body *body;
 
-	GameObject(anax::Entity _entity, Point _pos, Size _size, TILE_TYPE _tileType)
-	{
-		position = _pos;
-		size = _size;
-		tileType = _tileType;
-		entity = _entity;
-	}
+	GameObject();
+
+	void Kill(b2World *world);
 };

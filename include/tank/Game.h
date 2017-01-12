@@ -9,6 +9,7 @@
 #include "systems/InputSystem.h"
 #include "systems/PhysicsSystem.h"
 #include "systems/CollisionSystem.h"
+#include "systems/GunControlSystem.h"
 
 
 enum GameState
@@ -19,7 +20,7 @@ enum GameState
 	GAME_EXIT
 };
 
-class Game: PhysicsSystem::ICollisionListener
+class Game
 {
 public:
 	Game(Display *display,Input *input);
@@ -31,8 +32,7 @@ public:
 	void MainLoop();
 private:
 	void InitSystems(anax::World& world,b2World &pWorld);
-	void InitResources();
-	void OnCollisionOccured(anax::Entity* e1, anax::Entity* e2);
+	void InitResources();	
 	void LoadLevel(std::string levelPath);
 private:
 	GameState _state;
@@ -44,6 +44,7 @@ private:
 	InputSystem _inputSystem;
 	PhysicsSystem _physicsSystem;
 	CollisionSystem _collisionSystem;
+	GunControlSystem _gunControlSystem;
 
 	LevelGame *_levelGame;
 };

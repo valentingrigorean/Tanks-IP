@@ -15,7 +15,9 @@ public:
 	Input* GetInput() const;
 	void SetInput(Input* input);	
 private:	
-	void SetData(anax::Entity& e, DIRECTION dir,bool idle = false);
+	void SetDirection(anax::Entity& e, DIRECTION dir);
+	void SetIdle(anax::Entity& e);
+	void SetFire(anax::Entity& e,bool isShotting);
 private:
 	Input* _input;
 };

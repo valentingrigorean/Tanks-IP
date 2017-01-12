@@ -3,6 +3,8 @@
 #include <anax/Entity.hpp>
 #include <Box2D/Box2D.h>
 
+#include <tank/GameObject.h>
+
 struct TransformComponent;
 struct BodyComponent;
 
@@ -17,7 +19,7 @@ public:
 	{
 		virtual ~ICollisionListener() = 0 {};
 	
-		virtual void OnCollisionOccured(anax::Entity* e1, anax::Entity* e2) = 0;
+		virtual void OnCollisionOccured(GameObject *e1,GameObject *e2) = 0;
 	};
 
 	void Update(float dt);

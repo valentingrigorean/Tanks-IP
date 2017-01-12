@@ -42,8 +42,6 @@ void Game::Init()
 {
 	InitResources();
 
-
-
 	g_debugDraw.Create();
 
 	uint32 flags = b2Draw::e_shapeBit |
@@ -59,7 +57,7 @@ void Game::Init()
 
 	g_camera.m_width = _display->GetWidth();
 	g_camera.m_height = _display->GetHeight();
-	g_camera.BuildProjectionMatrix(glm::value_ptr(projection), -10);
+
 
 	auto shader = ResourceManager::GetShader("sprite");
 	shader.Bind()
@@ -70,7 +68,7 @@ void Game::Init()
 
 	_renderSystem.SetRenderer(*_render);
 	_inputSystem.SetInput(_input);
-	_physicsSystem.SetListener(*this);
+	_physicsSystem.SetListener(_collisionSystem);
 	LoadLevel("level1.txt");
 }
 
@@ -79,13 +77,15 @@ void Game::Update(float dt)
 	_levelGame->EcsWorld().refresh();
 
 	_inputSystem.Update();
+	_gunControlSystem.Update(dt);
 	_physicsSystem.Update(dt);
+	_collisionSystem.Update();
 }
 
 void Game::Render()
 {
 	_display->Clear();
-	//_renderSystem.Render();
+	_renderSystem.Render();
 	_levelGame->PhysicsWorld().DrawDebugData();
 	_display->SwapBuffers();
 }
@@ -143,6 +143,7 @@ void Game::InitSystems(anax::World & world, b2World &pWorld)
 {
 	pWorld.SetDebugDraw(&g_debugDraw);
 	_physicsSystem.SetPhysicsWorld(&pWorld);
+	_collisionSystem.SetPWorld(&pWorld);
 	world.removeAllSystems();
 	world.addSystem(_renderSystem);
 	world.addSystem(_inputSystem);
@@ -158,9 +159,5 @@ void Game::InitResources()
 	ResourceManager::LoadTexture(GetTexturePath("solid2.png"), "s2");
 	ResourceManager::LoadTexture(GetTexturePath("brick1.png"), "b1");
 	ResourceManager::LoadTexture(GetTexturePath("tank.png"), "t");
-}
-
-void Game::OnCollisionOccured(anax::Entity* e1, anax::Entity* e2)
-{
-	
+	ResourceManager::LoadTexture(GetTexturePath("bullet.png"), "bullet");
 }

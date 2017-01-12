@@ -8,8 +8,7 @@
 #include <tank/BodyFactory.h>
 #include <tank/ComponentsFactory.h>
 #include <tank/GConstants.h>
-
-
+#include <tank/ObjectPool.h>
 
 
 LevelGame::LevelGame() :_physicsWorld(b2Vec2_zero)
@@ -83,7 +82,13 @@ void LevelGame::LoadLevelInternal(std::string path, int levelWith, int levelHeig
 			}
 
 			auto entity = ComponentsFactory::CreateSprite(_ecsWorld, ResourceManager::GetTexture(texture), pos, size);
-			_levelObjects.push_back(GameObject(entity, pos, size, tileType));
+			auto obj = ObjectPool::GetObject();
+			obj->entity = entity;
+			obj->position = pos;
+			obj->size = size;
+			obj->tileType = tileType;
+			
+			ComponentsFactory::AddBody(_physicsWorld,*obj, obj);
 
 			switch (tileType)
 			{
@@ -94,15 +99,9 @@ void LevelGame::LoadLevelInternal(std::string path, int levelWith, int levelHeig
 				break;
 			case DYNAMIC:
 				ComponentsFactory::AddTank(entity);
-				_tanks.push_back(entity);
+				_tanks.push_back(entity);			
 				break;
 			}
 		}
-	}
-
-	for (std::size_t i = 0; i < _levelObjects.size(); i++)
-	{
-		auto gameObject = _levelObjects[i];
-		ComponentsFactory::AddBody(_physicsWorld, gameObject, &gameObject.entity);
-	}
+	}	
 }
