@@ -8,7 +8,7 @@ A simple 2d tanks game.That use [ECS](https://en.wikipedia.org/wiki/Entity%E2%80
  - [GLEW] (http://glew.sourceforge.net/) for openGL extensions
  - [SOIL](http://www.lonesock.net/soil.html) for loading images
  
- ## To crate new levels [read](https://github.com/valentingrigorean/Tanks-IP/blob/master/resources/levels/info.txt)
+## To crate new levels [read](https://github.com/valentingrigorean/Tanks-IP/blob/master/resources/levels/info.txt)
 
 ## License
 
