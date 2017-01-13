@@ -1,5 +1,6 @@
 # Tanks-IP
 A simple 2d tanks game.That use [ECS](https://en.wikipedia.org/wiki/Entity%E2%80%93component%E2%80%93system) architecture.
+To build you need Visual studio 2015.All libs are for x64 so to change to x86 need to rebuild all libs(anax/box2d) or download new binaries (glfw/glew)
 
 ## Libs used:
  - [ANAX](https://github.com/miguelmartin75/anax) for [ECS](https://en.wikipedia.org/wiki/Entity%E2%80%93component%E2%80%93system)
