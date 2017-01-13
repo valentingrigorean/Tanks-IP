@@ -9,6 +9,8 @@ To build you need Visual studio 2015.All libs are for x64 so to change to x86 ne
  - [GLEW] (http://glew.sourceforge.net/) for openGL extensions
  - [SOIL](http://www.lonesock.net/soil.html) for loading images
  
+## To test the release you need [this](https://www.microsoft.com/en-us/download/details.aspx?id=48145)
+ 
 ## To crate new levels [read](https://github.com/valentingrigorean/Tanks-IP/blob/master/resources/levels/info.txt)
 
 ## License
