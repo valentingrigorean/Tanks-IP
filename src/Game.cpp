@@ -148,6 +148,8 @@ void Game::InitSystems(anax::World & world, b2World &pWorld)
 	world.addSystem(_renderSystem);
 	world.addSystem(_inputSystem);
 	world.addSystem(_physicsSystem);
+	world.addSystem(_collisionSystem);
+	world.addSystem(_gunControlSystem);
 }
 
 void Game::InitResources()

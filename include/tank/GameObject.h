@@ -16,12 +16,7 @@ enum TILE_TYPE
 
 struct GameObject
 {
-	Point position;
-	Size size;
-	TILE_TYPE tileType;
 	anax::Entity entity;
-
 	GameObject();
-
-	void Kill(b2World *world);
+	void Kill();
 };

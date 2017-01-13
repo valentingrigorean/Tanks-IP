@@ -55,7 +55,7 @@ void CollisionSystem::OnCollisionOccured(GameObject* e1, GameObject* e2)
 inline void CollisionSystem::KillEntity(GameObject * e1, GameObject * e2, anax::Entity & entity)
 {
 	if (e1->entity == entity)
-		e1->Kill(_world);
+		e1->Kill();
 	else
-		e2->Kill(_world);
+		e2->Kill();
 }

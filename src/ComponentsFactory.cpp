@@ -1,9 +1,8 @@
 #include <tank/ComponentsFactory.h>
-
-#include <tank/BodyFactory.h>
 #include <tank/ObjectPool.h>
-#include <tank/ResourceManager.h>
+#include <tank/GameObject.h>
 
+#include <tank/ResourceManager.h>
 #include <tank/components/SpriteComponent.h>
 #include <tank/components/TransformComponent.h>
 #include <tank/components/HealthComponent.h>
@@ -27,14 +26,12 @@ anax::Entity ComponentsFactory::CreateSprite(anax::World & world, Texture2D & te
 	return e;
 }
 
-b2Body* ComponentsFactory::AddBody(b2World & world, GameObject & obj, void * userData)
+b2Body * ComponentsFactory::AddBody(b2World & world, anax::Entity & entity, BodyConfig & config, void * userData, bool causeEvents)
 {
-	auto& bodyComp = obj.entity.addComponent<BodyComponent>();
-	bodyComp.causeEvents = obj.tileType == TILE_TYPE::DYNAMIC;
-	bodyComp.body = BodyFactory::CreateRect(world, obj.position.x, obj.position.y,
-		obj.size.width, obj.size.height, obj.tileType);
-	bodyComp.body->SetUserData(userData);
-	obj.entity.activate();
+	auto& bodyComp = entity.addComponent<BodyComponent>();
+	bodyComp.causeEvents = causeEvents;
+	bodyComp.body = BodyFactory::CreateRect(world, config);
+	entity.activate();
 	return bodyComp.body;
 }
 
@@ -56,7 +53,7 @@ void ComponentsFactory::AddHealth(anax::Entity & entity, int health)
 
 void ComponentsFactory::CreateBullet(anax::Entity & owner, GunComponent &gunComp)
 {
-	auto obj = ObjectPool::GetObject();
+	
 	auto& transform = owner.getComponent<TransformComponent>().transform;
 	auto world = owner.getComponent<BodyComponent>().body->GetWorld();
 	Point pos;
@@ -94,14 +91,15 @@ void ComponentsFactory::CreateBullet(anax::Entity & owner, GunComponent &gunComp
 
 	auto& bulletEntity = CreateSprite(owner.getWorld(), ResourceManager::GetTexture("bullet"), pos, size);
 	auto& bulletComp = bulletEntity.addComponent<BulletComponent>();
+
+	auto obj = ObjectPool::GetObject();
+	obj->entity = bulletEntity;
+
 	bulletComp.owner = owner;
 	bulletComp.dmg = gunComp.bulletDamage;
-	obj->position = pos;
-	obj->size = size;
-	obj->entity = bulletEntity;
-	obj->tileType = TILE_TYPE::DYNAMIC;
+	BodyConfig bodyConfig(pos, size, TILE_TYPE::DYNAMIC, TILE_TYPE::DESTROYABLE | TILE_TYPE::DYNAMIC | TILE_TYPE::SOLID);
 
-	auto body = AddBody(*world,*obj, obj);
+	auto body = AddBody(*world, bulletEntity, bodyConfig, obj, true);
 	velocity.x *= gunComp.SPEED * P2M;
 	velocity.y *= gunComp.SPEED * P2M;
 	body->SetLinearVelocity(velocity);

@@ -1,43 +1,43 @@
 #include <tank/ObjectPool.h>
+#include <algorithm>
 
-std::vector<PoolContainer> ObjectPool::AllObjects(1000);
+std::list<GameObject> ObjectPool::AllObjects(1000);
+std::vector<GameObject*> ObjectPool::UsedObjects;
+
+
 
 GameObject * ObjectPool::GetObject()
-{	
+{
 	return FindObject();
 }
 
 void ObjectPool::Free(GameObject * object)
 {
-	for (int i = 0; i < AllObjects.size(); i++)
-	{
-		auto item = &AllObjects[i];
-		if (&(item->obj) == object)
-		{
-			item->isFree = true;
-			return;
-		}
-	}
+	UsedObjects.erase(std::remove(UsedObjects.begin(), UsedObjects.end(), object),
+		UsedObjects.end());
 }
 
 GameObject * ObjectPool::FindObject()
 {
-	if (AllObjects.size() == 0)
+	if (AllObjects.size() == UsedObjects.size())
 	{
-		for (int i = 0; i < AllObjects.size(); i++)
-			AllObjects.push_back(PoolContainer(true));
-		auto item = &AllObjects.back();
-		item->isFree = false;
-		return &(item->obj);
+		Resize();
 	}
-	for (int i = 0; i < AllObjects.size(); i++)
-	{
-		auto item = &AllObjects[i];
-		if (item->isFree)
+	for (auto& it : AllObjects)
+	{		
+		if (std::find(UsedObjects.begin(), UsedObjects.end(), &it) == UsedObjects.end())
 		{
-			item->isFree = false;
-			return &(item->obj);
+			UsedObjects.push_back(&it);
+			return &it;
 		}
 	}
 	return nullptr;
+}
+
+void ObjectPool::Resize()
+{
+	for (std::size_t i = 0; i < 1000; i++)
+	{
+		AllObjects.push_back(GameObject());
+	}
 }

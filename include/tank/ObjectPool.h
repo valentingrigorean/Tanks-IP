@@ -1,23 +1,7 @@
 #pragma once
 
-#include <vector>
+#include <list>
 #include "GameObject.h"
-
-struct PoolContainer
-{
-	GameObject obj;
-	bool isFree;
-
-	PoolContainer()
-	{
-
-	}
-
-	PoolContainer(bool _isFree) :obj(),isFree(_isFree)
-	{
-
-	}
-};
 
 class ObjectPool
 {
@@ -27,5 +11,7 @@ public:
 private:
 	ObjectPool();
 	static GameObject* FindObject();
-	static std::vector<PoolContainer> AllObjects;
+	static std::list<GameObject> AllObjects;
+	static std::vector<GameObject*> UsedObjects;
+	static void Resize();
 };

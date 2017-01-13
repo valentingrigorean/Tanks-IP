@@ -7,12 +7,16 @@ GameObject::GameObject()
 	memset(this, 0, sizeof(GameObject));
 }
 
-void GameObject::Kill(b2World * world)
+void GameObject::Kill()
 {
 	if (entity.isValid() && entity.isActivated())
 	{
-		if (world != nullptr && entity.hasComponent<BodyComponent>())
-			world->DestroyBody(entity.getComponent<BodyComponent>().body);
+		if (entity.hasComponent<BodyComponent>())
+		{
+			auto body = entity.getComponent<BodyComponent>().body;
+			if (body != nullptr)
+				body->GetWorld()->DestroyBody(body);
+		}
 		entity.kill();
 	}
 	ObjectPool::Free(this);
