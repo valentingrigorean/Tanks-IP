@@ -8,7 +8,9 @@ struct BodyConfig
 {
 	unsigned short categoryBits = 0x1;
 	unsigned short maskBits = 0x1;
+
 	float scale = 1.f;
+
 	float x = 0;
 	float y = 0;
 	float w = 0;

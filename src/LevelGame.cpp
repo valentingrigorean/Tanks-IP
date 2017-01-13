@@ -84,10 +84,13 @@ void LevelGame::LoadLevelInternal(std::string path, int levelWith, int levelHeig
 			auto entity = ComponentsFactory::CreateSprite(_ecsWorld, ResourceManager::GetTexture(texture), pos, size);
 			uint16 categoryBits = tileType;
 			uint16 maskBits = 0x1;
+			bool dynamic = false;
+			float scale = 1.f;
 
 			switch (tileType)
 			{
-			case SOLID:				
+			case SOLID:
+				maskBits = TILE_TYPE::DYNAMIC;
 				break;
 			case DESTROYABLE:
 				maskBits = TILE_TYPE::DYNAMIC;
@@ -96,13 +99,17 @@ void LevelGame::LoadLevelInternal(std::string path, int levelWith, int levelHeig
 			case DYNAMIC:
 				maskBits = TILE_TYPE::DYNAMIC | TILE_TYPE::SOLID | TILE_TYPE::DESTROYABLE;
 				ComponentsFactory::AddTank(entity);
-				_tanks.push_back(entity);			
+				_tanks.push_back(entity);
+				dynamic = true;
+				scale = 0.95f;
 				break;
 			}
 			auto obj = ObjectPool::GetObject();
 			obj->entity = entity;
 
 			BodyConfig bodyConfig(pos, size, categoryBits, maskBits);
+			bodyConfig.dynamic = dynamic;
+			bodyConfig.scale = scale;
 			ComponentsFactory::AddBody(_physicsWorld,entity,bodyConfig,obj);
 		}
 	}	

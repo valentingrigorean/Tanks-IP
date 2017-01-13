@@ -5,7 +5,7 @@ b2Body * BodyFactory::CreateRect(b2World & world, BodyConfig & config)
 {
 	b2BodyDef bodyDef;
 
-	bodyDef.position.Set(config.x * P2M, config.y* P2M);
+	bodyDef.position.Set(config.x * P2M, -config.y* P2M);
 
 	bodyDef.type = config.dynamic ? b2_dynamicBody : b2_staticBody;
 
@@ -21,7 +21,7 @@ b2Body * BodyFactory::CreateRect(b2World & world, BodyConfig & config)
 	fixtureDef.shape = &shape;
 	fixtureDef.filter.categoryBits = config.categoryBits;
 	fixtureDef.filter.maskBits = config.maskBits;
-	
+
 
 	fixtureDef.density = 1.f;
 	body->CreateFixture(&fixtureDef);

@@ -11,7 +11,7 @@ enum DIRECTION
 
 struct TankComponent : anax::Component
 {	
-	float speed = 25.f;
+	float speed = 45.f;
 	DIRECTION direction = UP;
 	bool idle = true;
 };

@@ -78,11 +78,11 @@ void InputSystem::SetDirection(anax::Entity & e, DIRECTION dir)
 	switch (dir)
 	{
 	case DIRECTION::UP:
-		velocity.y = -speed;
+		velocity.y = speed;
 		rotation = 0;
 		break;
 	case DIRECTION::DOWN:
-		velocity.y = speed;
+		velocity.y = -speed;
 		rotation = 180.f;
 		break;
 	case DIRECTION::LEFT:

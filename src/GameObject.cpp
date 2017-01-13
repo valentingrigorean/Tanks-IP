@@ -2,6 +2,8 @@
 #include <tank/ObjectPool.h>
 #include <tank/components/BodyComponent.h>
 
+#include <iostream>
+
 GameObject::GameObject()
 {
 	memset(this, 0, sizeof(GameObject));
@@ -9,7 +11,8 @@ GameObject::GameObject()
 
 void GameObject::Kill()
 {
-	if (entity.isValid() && entity.isActivated())
+	std::cout << "Entity:" << entity.getId().index << " is valid:" << entity.isValid() << " is active:" << entity.isActivated() << " has BodyComp:" << entity.hasComponent<BodyComponent>() << std::endl;
+	if (entity.isValid())
 	{
 		if (entity.hasComponent<BodyComponent>())
 		{

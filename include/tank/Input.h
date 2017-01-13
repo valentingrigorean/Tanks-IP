@@ -7,6 +7,8 @@
 #define G_KEY_DOWN 264
 #define G_KEY_LEFT 263
 #define G_KEY_RIGHT 262
+#define G_KEY_F7 296
+#define G_KEY_F8 297
 
 class Input
 {

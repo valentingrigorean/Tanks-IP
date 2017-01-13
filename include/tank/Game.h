@@ -10,15 +10,8 @@
 #include "systems/PhysicsSystem.h"
 #include "systems/CollisionSystem.h"
 #include "systems/GunControlSystem.h"
-
-
-enum GameState
-{
-	GAME_ACTIVE,
-	GAME_MENU,
-	GAME_WIN,
-	GAME_EXIT
-};
+#include "systems/BulletAgeSystem.h"
+#include "systems/DebugDrawSystem.h"
 
 class Game
 {
@@ -32,10 +25,10 @@ public:
 	void MainLoop();
 private:
 	void InitSystems(anax::World& world,b2World &pWorld);
-	void InitResources();	
+	void InitResources();
 	void LoadLevel(std::string levelPath);
 private:
-	GameState _state;
+	
 	Display *_display;
 	Input *_input;
 	SpriteRender *_render;
@@ -45,6 +38,8 @@ private:
 	PhysicsSystem _physicsSystem;
 	CollisionSystem _collisionSystem;
 	GunControlSystem _gunControlSystem;
+	BulletAgeSystem _bulletAgeSystem;
+	DebugDrawSystem _debugDrawSystem;
 
 	LevelGame *_levelGame;
 };

@@ -32,6 +32,7 @@ b2Body * ComponentsFactory::AddBody(b2World & world, anax::Entity & entity, Body
 	bodyComp.causeEvents = causeEvents;
 	bodyComp.body = BodyFactory::CreateRect(world, config);
 	entity.activate();
+	bodyComp.body->SetUserData(userData);
 	return bodyComp.body;
 }
 
@@ -53,43 +54,58 @@ void ComponentsFactory::AddHealth(anax::Entity & entity, int health)
 
 void ComponentsFactory::CreateBullet(anax::Entity & owner, GunComponent &gunComp)
 {
-	
+
 	auto& transform = owner.getComponent<TransformComponent>().transform;
-	auto world = owner.getComponent<BodyComponent>().body->GetWorld();
+	auto bodyEntity = owner.getComponent<BodyComponent>().body;
+	auto world = bodyEntity->GetWorld();
 	Point pos;
-	Size size(20, 20);
+	Point offset;
+	Size size(10, 10);
 
 	b2Vec2 velocity;
+
+	auto offsetX = (transform.GetSize().width / 2.f) + (size.width / 2.f) + 1;
+	auto offsetY = (transform.GetSize().height / 2.f) + (size.height / 2.f) + 1;
+
+	offset.x = transform.GetSize().width / 2.f - size.width / 2.f;
+	offset.y = transform.GetSize().height / 2.f - size.height / 2.f;
 
 	switch (gunComp.direction)
 	{
 	case UP:
-		pos.x = transform.GetPosition().x + (transform.GetSize().width / 2);
-		pos.y = transform.GetPosition().y;
-		velocity.x = 0;
-		velocity.y = -1;
-		break;
-	case DOWN:
-		pos.x = transform.GetPosition().x + (transform.GetSize().width / 2);
-		pos.y = transform.GetPosition().y + transform.GetSize().height;
+		pos.x = transform.GetPosition().x;
+		pos.y = transform.GetPosition().y - offsetY;
 		velocity.x = 0;
 		velocity.y = 1;
+		offset.y = offsetY - size.height;
+		break;
+	case DOWN:
+		pos.x = transform.GetPosition().x;
+		pos.y = transform.GetPosition().y + offsetY;
+		velocity.x = 0;
+		velocity.y = -1;
+		offset.y = offsetY - size.height;
 		break;
 	case LEFT:
-		pos.x = transform.GetPosition().x + (transform.GetSize().width / 2);
-		pos.y = transform.GetPosition().y + (transform.GetSize().height / 2);
+		pos.x = transform.GetPosition().x - offsetX;
+		pos.y = transform.GetPosition().y;
 		velocity.x = -1;
 		velocity.y = 0;
+		offset.x = offsetX - size.width;
 		break;
 	case RIGHT:
-		pos.x = transform.GetPosition().x + transform.GetSize().width;
-		pos.y = transform.GetPosition().y + (transform.GetSize().height / 2);
+		pos.x = transform.GetPosition().x + offsetX;
+		pos.y = transform.GetPosition().y;
 		velocity.x = 1;
 		velocity.y = 0;
+		offset.x = offsetX - size.width;
 		break;
 	}
 
 	auto& bulletEntity = CreateSprite(owner.getWorld(), ResourceManager::GetTexture("bullet"), pos, size);
+	auto& tranEntity = bulletEntity.getComponent<TransformComponent>().transform;
+	tranEntity.SetOffset(offset);
+
 	auto& bulletComp = bulletEntity.addComponent<BulletComponent>();
 
 	auto obj = ObjectPool::GetObject();
@@ -97,8 +113,10 @@ void ComponentsFactory::CreateBullet(anax::Entity & owner, GunComponent &gunComp
 
 	bulletComp.owner = owner;
 	bulletComp.dmg = gunComp.bulletDamage;
-	BodyConfig bodyConfig(pos, size, TILE_TYPE::DYNAMIC, TILE_TYPE::DESTROYABLE | TILE_TYPE::DYNAMIC | TILE_TYPE::SOLID);
-
+	auto mask = TILE_TYPE::DESTROYABLE | TILE_TYPE::DYNAMIC | TILE_TYPE::SOLID;
+	//auto mask = 0x1;
+	BodyConfig bodyConfig(pos, size, TILE_TYPE::DYNAMIC, mask);
+	bodyConfig.dynamic = true;
 	auto body = AddBody(*world, bulletEntity, bodyConfig, obj, true);
 	velocity.x *= gunComp.SPEED * P2M;
 	velocity.y *= gunComp.SPEED * P2M;

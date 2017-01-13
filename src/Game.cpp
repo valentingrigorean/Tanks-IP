@@ -14,6 +14,8 @@
 
 #include <tank/glfw/DebugDraw.h>
 
+#include <tank/GConstants.h>
+
 
 /// A typedef that is used to represent a second
 typedef double Seconds;
@@ -26,15 +28,17 @@ inline Seconds GetTimeNow()
 }
 
 
-Game::Game(Display * display, Input * input) :_display(display), _input(input)
+Game::Game(Display * display, Input * input) :
+	_display(display),
+	_input(input),
+	_debugDrawSystem(_display->GetWidth(),_display->GetHeight())
 {
 
 }
 
 Game::~Game()
 {
-	delete _render;
-	g_debugDraw.Destroy();
+	delete _render;	
 	ResourceManager::Clear();
 }
 
@@ -42,22 +46,8 @@ void Game::Init()
 {
 	InitResources();
 
-	g_debugDraw.Create();
-
-	uint32 flags = b2Draw::e_shapeBit |
-		b2Draw::e_jointBit |
-		b2Draw::e_aabbBit |
-		b2Draw::e_pairBit |
-		b2Draw::e_centerOfMassBit;
-
-	g_debugDraw.SetFlags(flags);
-
 	auto projection = glm::ortho(0.0f,(float)_display->GetWidth(),
 		(float)_display->GetHeight(), 0.f, -1.f, 1.f);
-
-	g_camera.m_width = _display->GetWidth();
-	g_camera.m_height = _display->GetHeight();
-
 
 	auto shader = ResourceManager::GetShader("sprite");
 	shader.Bind()
@@ -80,13 +70,14 @@ void Game::Update(float dt)
 	_gunControlSystem.Update(dt);
 	_physicsSystem.Update(dt);
 	_collisionSystem.Update();
+	_bulletAgeSystem.Update(dt);
 }
 
 void Game::Render()
 {
 	_display->Clear();
 	_renderSystem.Render();
-	_levelGame->PhysicsWorld().DrawDebugData();
+	_debugDrawSystem.Render();
 	_display->SwapBuffers();
 }
 
@@ -111,7 +102,7 @@ void Game::MainLoop()
 	Seconds accumulator = 0; // Used to accumlate time in the game loop
 
 
-	while (_state != GameState::GAME_EXIT)
+	while (true)
 	{
 		_input->PollEvents();
 
@@ -135,13 +126,17 @@ void Game::MainLoop()
 
 		Render();
 		if (_input->GetKey(G_KEY_ESCAPE))
-			_state = GameState::GAME_EXIT;
+			break;
+		if (_input->GetKey(G_KEY_F8))
+			_debugDrawSystem.EnableDebug(true);
+		if (_input->GetKey(G_KEY_F7))
+			_debugDrawSystem.EnableDebug(false);
 	}
 }
 
 void Game::InitSystems(anax::World & world, b2World &pWorld)
 {
-	pWorld.SetDebugDraw(&g_debugDraw);
+	_debugDrawSystem.SetWorld(&pWorld);
 	_physicsSystem.SetPhysicsWorld(&pWorld);
 	_collisionSystem.SetPWorld(&pWorld);
 	world.removeAllSystems();
@@ -150,6 +145,7 @@ void Game::InitSystems(anax::World & world, b2World &pWorld)
 	world.addSystem(_physicsSystem);
 	world.addSystem(_collisionSystem);
 	world.addSystem(_gunControlSystem);
+	world.addSystem(_bulletAgeSystem);
 }
 
 void Game::InitResources()

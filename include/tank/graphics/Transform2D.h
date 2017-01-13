@@ -27,11 +27,15 @@ public:
 	// set rotation in degrees
 	void SetRotate(float rotate);
 
+	void SetOffset(Point offset);
+	Point& GetOffset();
+
 	void Move(float x, float y);
 
 	glm::mat4 GetModel() const;
 private:
 	Size _size;
+	Point _offset;
 	Point _position;
 	float _rotate;
 	float _scale;

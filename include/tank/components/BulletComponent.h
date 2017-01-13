@@ -6,7 +6,7 @@
 
 struct BulletComponent :anax::Component
 {
-	float lifeRemaining;
+	float lifeRemaining = 5.f;
 	int dmg;
 	anax::Entity owner;
 };

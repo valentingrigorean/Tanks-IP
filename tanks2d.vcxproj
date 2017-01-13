@@ -128,6 +128,8 @@
   <ItemGroup>
     <ClCompile Include="src\GameObject.cpp" />
     <ClCompile Include="src\ObjectPool.cpp" />
+    <ClCompile Include="src\systems\BulletAgeSystem.cpp" />
+    <ClCompile Include="src\systems\DebugDrawSystem.cpp" />
     <ClCompile Include="src\systems\GunControlSystem.cpp" />
     <ClCompile Include="src\BodyFactory.cpp" />
     <ClCompile Include="src\graphics\Color.cpp" />
@@ -188,7 +190,9 @@
     <ClInclude Include="include\tank\LevelGame.h" />
     <ClInclude Include="include\tank\ObjectPool.h" />
     <ClInclude Include="include\tank\ResourceManager.h" />
+    <ClInclude Include="include\tank\systems\BulletAgeSystem.h" />
     <ClInclude Include="include\tank\systems\CollisionSystem.h" />
+    <ClInclude Include="include\tank\systems\DebugDrawSystem.h" />
     <ClInclude Include="include\tank\systems\GunControlSystem.h" />
     <ClInclude Include="include\tank\systems\InputSystem.h" />
     <ClInclude Include="include\tank\systems\PhysicsSystem.h" />

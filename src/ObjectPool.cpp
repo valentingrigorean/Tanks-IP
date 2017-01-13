@@ -24,7 +24,7 @@ GameObject * ObjectPool::FindObject()
 		Resize();
 	}
 	for (auto& it : AllObjects)
-	{		
+	{
 		if (std::find(UsedObjects.begin(), UsedObjects.end(), &it) == UsedObjects.end())
 		{
 			UsedObjects.push_back(&it);

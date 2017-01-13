@@ -5,7 +5,30 @@
 
 #include <tank/components/BodyComponent.h>
 #include <tank/components/TransformComponent.h>
+#include <tank/components/BulletComponent.h>
+#include <tank/components/TankComponent.h>
 
+
+inline void FixBullet(float *x, float *y, Transform2D& bulletTran, anax::Entity& owner)
+{
+	auto& transform = owner.getComponent<TransformComponent>().transform;
+	auto& tankComp = owner.getComponent<TankComponent>();
+	switch (tankComp.direction)
+	{
+	case UP:
+		*x += transform.GetSize().width / 2.f - bulletTran.GetSize().width /2.f;
+		break;
+	case DOWN:
+		
+		break;
+	case LEFT:
+		
+		break;
+	case RIGHT:
+		
+		break;
+	}
+}
 
 PhysicsSystem::PhysicsSystem() :_listener(nullptr)
 {
@@ -21,7 +44,9 @@ void PhysicsSystem::Update(float dt)
 		auto& transform = entity.getComponent<TransformComponent>().transform;
 		auto& body = entity.getComponent<BodyComponent>().body;
 		auto position = body->GetPosition();
-		transform.SetPosition(position.x * M2P, position.y * M2P);
+		auto x = position.x * M2P;
+		auto y = -position.y * M2P;
+		transform.SetPosition(x, y);
 		transform.SetRotate(RADIAN_TO_DEGREES(body->GetAngle()));
 	}
 }

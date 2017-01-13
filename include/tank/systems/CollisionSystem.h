@@ -16,6 +16,7 @@ public:
 	b2World* GetPWorld();
 private:
 	void OnCollisionOccured(GameObject* e1, GameObject* e2);
+	bool HandleBullet(GameObject* obj1, GameObject* obj2);
 	inline void KillEntity(GameObject* e1, GameObject* e2, anax::Entity& entity);
 private:
 	b2World *_world;
