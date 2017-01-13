@@ -5,4 +5,5 @@
 struct SpriteComponent :anax::Component
 {
 	Sprite sprite;
+	int zOrder = 0;
 };

@@ -17,7 +17,10 @@ LevelGame::LevelGame() :_physicsWorld(b2Vec2_zero)
 }
 
 LevelGame::~LevelGame()
-{
+{	
+	for (auto obj : _allObjects)
+		obj->Kill();
+	_allObjects.clear();	
 	_ecsWorld.clear();
 }
 
@@ -31,9 +34,14 @@ b2World & LevelGame::PhysicsWorld()
 	return _physicsWorld;
 }
 
-std::vector<anax::Entity> LevelGame::GetTanks() const
+std::vector<GameObject*> LevelGame::GetTanks() const
 {
 	return _tanks;
+}
+
+std::vector<GameObject*> LevelGame::GetAllObjects() const
+{
+	return _allObjects;
 }
 
 LevelGame * LevelGame::LoadLevel(std::string path, int levelWith, int levelHeight)
@@ -49,6 +57,7 @@ void LevelGame::LoadLevelInternal(std::string path, int levelWith, int levelHeig
 	auto height = lines.size();
 	auto unitWidth = 40.f;
 	auto unitHeight = 40.f;
+	
 	for (int y = 0; y < height; y++)
 	{
 		auto line = lines[y];
@@ -61,27 +70,29 @@ void LevelGame::LoadLevelInternal(std::string path, int levelWith, int levelHeig
 			Size size((int)unitWidth, (int)unitHeight);
 			std::string texture = "";
 			TILE_TYPE tileType;
+			int zOrder = 0;
 			switch (tileCode)
 			{
-			case '#':
-				texture = "s2";
+			case 's':
+				texture = "s";
 				tileType = TILE_TYPE::SOLID;
 				break;
-			case '1':
-				texture = "s1";
-				tileType = TILE_TYPE::SOLID;
-				break;
-			case '2':
-				texture = "b1";
+			case 'b':
+				texture = "b";
 				tileType = TILE_TYPE::DESTROYABLE;
-				break;
+				break;			
 			case 't':
-				texture = "t";
+				texture = "tank_h";
 				tileType = TILE_TYPE::DYNAMIC;
+				zOrder = 1;
 				break;
-			}
+			}			
+			auto entity = ComponentsFactory::CreateSprite(_ecsWorld,
+				ResourceManager::GetTexture(texture), pos, size, zOrder);
+			auto obj = ObjectPool::GetObject();
+			obj->entity = entity;
+			_allObjects.push_back(obj);
 
-			auto entity = ComponentsFactory::CreateSprite(_ecsWorld, ResourceManager::GetTexture(texture), pos, size);
 			uint16 categoryBits = tileType;
 			uint16 maskBits = 0x1;
 			bool dynamic = false;
@@ -99,13 +110,11 @@ void LevelGame::LoadLevelInternal(std::string path, int levelWith, int levelHeig
 			case DYNAMIC:
 				maskBits = TILE_TYPE::DYNAMIC | TILE_TYPE::SOLID | TILE_TYPE::DESTROYABLE;
 				ComponentsFactory::AddTank(entity);
-				_tanks.push_back(entity);
+				_tanks.push_back(obj);
 				dynamic = true;
-				scale = 0.95f;
+				scale = 0.95f;				
 				break;
-			}
-			auto obj = ObjectPool::GetObject();
-			obj->entity = entity;
+			}		
 
 			BodyConfig bodyConfig(pos, size, categoryBits, maskBits);
 			bodyConfig.dynamic = dynamic;

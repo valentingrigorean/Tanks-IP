@@ -10,8 +10,7 @@ GameObject::GameObject()
 }
 
 void GameObject::Kill()
-{
-	std::cout << "Entity:" << entity.getId().index << " is valid:" << entity.isValid() << " is active:" << entity.isActivated() << " has BodyComp:" << entity.hasComponent<BodyComponent>() << std::endl;
+{	
 	if (entity.isValid())
 	{
 		if (entity.hasComponent<BodyComponent>())

@@ -1,6 +1,12 @@
 #include <tank/BodyFactory.h>
 #include <tank/GConstants.h>
 
+BodyFactory::BodyFactory()
+{
+
+}
+
+
 b2Body * BodyFactory::CreateRect(b2World & world, BodyConfig & config)
 {
 	b2BodyDef bodyDef;
@@ -8,6 +14,7 @@ b2Body * BodyFactory::CreateRect(b2World & world, BodyConfig & config)
 	bodyDef.position.Set(config.x * P2M, -config.y* P2M);
 
 	bodyDef.type = config.dynamic ? b2_dynamicBody : b2_staticBody;
+	bodyDef.fixedRotation = true;
 
 	auto body = world.CreateBody(&bodyDef);
 
@@ -27,9 +34,3 @@ b2Body * BodyFactory::CreateRect(b2World & world, BodyConfig & config)
 	body->CreateFixture(&fixtureDef);
 	return body;
 }
-
-BodyFactory::BodyFactory()
-{
-
-}
-

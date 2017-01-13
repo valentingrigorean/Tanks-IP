@@ -11,14 +11,16 @@
 #include <tank/components/GunComponent.h>
 #include <tank/components/BodyComponent.h>
 #include <tank/components/BulletComponent.h>
+#include <tank/components/AIComponent.h>
 
 #include <tank/GConstants.h>
 
-anax::Entity ComponentsFactory::CreateSprite(anax::World & world, Texture2D & texture, Point position, Size size)
+anax::Entity ComponentsFactory::CreateSprite(anax::World & world, Texture2D & texture, Point position, Size size,int zOrder)
 {
 	auto& e = world.createEntity();
-	e.addComponent<SpriteComponent>().sprite.SetTexture(texture);
-
+	auto& spriteComp = e.addComponent<SpriteComponent>();
+	spriteComp.zOrder = zOrder;
+	spriteComp.sprite.SetTexture(texture);
 	auto& transform = e.addComponent<TransformComponent>().transform;
 	transform.SetPosition(position);
 	transform.SetSize(size);
@@ -121,4 +123,10 @@ void ComponentsFactory::CreateBullet(anax::Entity & owner, GunComponent &gunComp
 	velocity.x *= gunComp.SPEED * P2M;
 	velocity.y *= gunComp.SPEED * P2M;
 	body->SetLinearVelocity(velocity);
+}
+
+void ComponentsFactory::AddAI(anax::Entity & entity)
+{
+	entity.addComponent<AIComponent>();
+	entity.activate();
 }

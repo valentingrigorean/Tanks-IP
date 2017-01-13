@@ -100,10 +100,8 @@ void InputSystem::SetDirection(anax::Entity & e, DIRECTION dir)
 }
 
 void InputSystem::SetIdle(anax::Entity & e)
-{
-	if (!e.hasComponent<TankComponent>()) return;
-	if (!e.hasComponent<BodyComponent>()) return;
-	auto& tankComp = e.getComponent<TankComponent>();
+{	
+	if (!e.hasComponent<BodyComponent>()) return;	
 	auto& body = e.getComponent<BodyComponent>().body;
 	body->SetLinearVelocity(b2Vec2_zero);
 }

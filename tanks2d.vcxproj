@@ -122,14 +122,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <None Include="include\tank\TankFactory.h" />
     <None Include="resources\shaders\sprite.frag" />
     <None Include="resources\shaders\sprite.vert" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\ConsoleGUI.cpp" />
     <ClCompile Include="src\GameObject.cpp" />
     <ClCompile Include="src\ObjectPool.cpp" />
+    <ClCompile Include="src\systems\AISystem.cpp" />
     <ClCompile Include="src\systems\BulletAgeSystem.cpp" />
     <ClCompile Include="src\systems\DebugDrawSystem.cpp" />
+    <ClCompile Include="src\systems\GameStateSystem.cpp" />
     <ClCompile Include="src\systems\GunControlSystem.cpp" />
     <ClCompile Include="src\BodyFactory.cpp" />
     <ClCompile Include="src\graphics\Color.cpp" />
@@ -153,11 +157,13 @@
     <ClCompile Include="src\systems\SpriteRenderingSystem.cpp" />
     <ClCompile Include="src\graphics\Texture2D.cpp" />
     <ClCompile Include="src\graphics\Transform2D.cpp" />
+    <ClCompile Include="src\TankFactory.cpp" />
     <ClCompile Include="src\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\tank\BodyFactory.h" />
     <ClInclude Include="include\tank\ComponentsFactory.h" />
+    <ClInclude Include="include\tank\components\AIComponent.h" />
     <ClInclude Include="include\tank\components\BodyComponent.h" />
     <ClInclude Include="include\tank\components\BulletComponent.h" />
     <ClInclude Include="include\tank\components\GunComponent.h" />
@@ -166,6 +172,7 @@
     <ClInclude Include="include\tank\components\SpriteComponent.h" />
     <ClInclude Include="include\tank\components\TankComponent.h" />
     <ClInclude Include="include\tank\components\TransformComponent.h" />
+    <ClInclude Include="include\tank\ConsoleGUI.h" />
     <ClInclude Include="include\tank\Game.h" />
     <ClInclude Include="include\tank\GameObject.h" />
     <ClInclude Include="include\tank\GConstants.h" />
@@ -190,6 +197,7 @@
     <ClInclude Include="include\tank\LevelGame.h" />
     <ClInclude Include="include\tank\ObjectPool.h" />
     <ClInclude Include="include\tank\ResourceManager.h" />
+    <ClInclude Include="include\tank\systems\AISystem.h" />
     <ClInclude Include="include\tank\systems\BulletAgeSystem.h" />
     <ClInclude Include="include\tank\systems\CollisionSystem.h" />
     <ClInclude Include="include\tank\systems\DebugDrawSystem.h" />
@@ -198,6 +206,7 @@
     <ClInclude Include="include\tank\systems\PhysicsSystem.h" />
     <ClInclude Include="include\tank\systems\SpriteRenderingSystem.h" />
     <ClInclude Include="include\tank\Utils.h" />
+    <ClInclude Include="include\tank\systems\GameStateSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="resources\levels\info.txt" />

@@ -8,7 +8,7 @@ Display::Display(int width, int height, std::string & title):_width(width),_heig
 
 void Display::Clear()
 {
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClearColor(44/255.f, 41/255.f, 24/255.f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 }
 

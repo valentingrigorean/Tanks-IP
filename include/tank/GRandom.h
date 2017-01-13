@@ -11,5 +11,5 @@ public:
 	int Next(int min, int max);
 	
 	//return between 0.0f - 1.f
-	double NextDouble();
+	float NextFloat();
 };

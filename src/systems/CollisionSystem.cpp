@@ -45,6 +45,12 @@ bool CollisionSystem::HandleBullet(GameObject * obj1, GameObject * obj2)
 		return false;
 	if (!(e1.hasComponent<BulletComponent>() || e2.hasComponent<BulletComponent>()))
 		return false;
+	if (e1.hasComponent<BulletComponent>() && e2.hasComponent<BulletComponent>())
+	{
+		obj1->Kill();
+		obj2->Kill();
+		return true;
+	}
 
 	auto& bulletEntity = e1.hasComponent<BulletComponent>() ? e1 : e2;
 	auto& bulletComp = bulletEntity.getComponent<BulletComponent>();

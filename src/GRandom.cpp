@@ -25,7 +25,7 @@ int GRandom::Next(int min, int max)
 	return std::uniform_int_distribution<>(min, max)(eng);
 }
 
-double GRandom::NextDouble()
+float GRandom::NextFloat()
 {
-	return std::uniform_real_distribution<>(0, 1)(eng);
+	return (float)std::uniform_real_distribution<>(0, 1)(eng);
 }

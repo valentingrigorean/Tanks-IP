@@ -18,7 +18,6 @@
 
 #include <tank/glfw/DebugDraw.h>
 #include <tank/graphics/GOpengl.h>
-
 #include <stdio.h>
 #include <stdarg.h>
 
@@ -109,11 +108,11 @@ void Camera::BuildProjectionMatrix(float32* m, float32 zBias)
 static void sCheckGLError()
 {
 	GLenum errCode = glGetError();
-	if (errCode != GL_NO_ERROR)
-	{
-		fprintf(stderr, "OpenGL error = %d\n", errCode);
-		assert(false);
-	}
+	//if (errCode != GL_NO_ERROR)
+	//{
+	//	fprintf(stderr, "OpenGL error = %d\n", errCode);
+	//	assert(false);
+	//}
 }
 
 // Prints shader compilation errors

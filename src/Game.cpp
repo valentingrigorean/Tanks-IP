@@ -6,6 +6,7 @@
 #include <tank/components/TransformComponent.h>
 #include <tank/components/InputComponent.h>
 #include <tank/components/BodyComponent.h>
+#include <tank/ComponentsFactory.h>
 
 #include <tank/Game.h>
 #include <tank/Utils.h>
@@ -31,22 +32,32 @@ inline Seconds GetTimeNow()
 Game::Game(Display * display, Input * input) :
 	_display(display),
 	_input(input),
-	_debugDrawSystem(_display->GetWidth(),_display->GetHeight())
+	_debugDrawSystem(_display->GetWidth(), _display->GetHeight())
 {
-
+	Init();
 }
 
 Game::~Game()
 {
-	delete _render;	
+	delete _render;
 	ResourceManager::Clear();
+}
+
+void Game::StartGame(LevelGame * lvlGame, GameStateSystem::IStateLisener * lisener)
+{
+	_levelGame = lvlGame;
+	_gameStateLisener = lisener;
+	_gameStateSystem.SetLevelGame(*lvlGame);
+	InitSystems(_levelGame->EcsWorld(), _levelGame->PhysicsWorld());
+	_isRunning = true;
+	MainLoop();
 }
 
 void Game::Init()
 {
 	InitResources();
 
-	auto projection = glm::ortho(0.0f,(float)_display->GetWidth(),
+	auto projection = glm::ortho(0.0f, (float)_display->GetWidth(),
 		(float)_display->GetHeight(), 0.f, -1.f, 1.f);
 
 	auto shader = ResourceManager::GetShader("sprite");
@@ -59,18 +70,20 @@ void Game::Init()
 	_renderSystem.SetRenderer(*_render);
 	_inputSystem.SetInput(_input);
 	_physicsSystem.SetListener(_collisionSystem);
-	LoadLevel("level1.txt");
+	_gameStateSystem.SetStateLisener(*this);
 }
 
 void Game::Update(float dt)
 {
 	_levelGame->EcsWorld().refresh();
 
+	_aiSystem.Update(dt);
 	_inputSystem.Update();
 	_gunControlSystem.Update(dt);
 	_physicsSystem.Update(dt);
 	_collisionSystem.Update();
 	_bulletAgeSystem.Update(dt);
+	_gameStateSystem.Update();
 }
 
 void Game::Render()
@@ -81,18 +94,6 @@ void Game::Render()
 	_display->SwapBuffers();
 }
 
-void Game::LoadLevel(std::string levelPath)
-{
-	levelPath = GetLevelPath(levelPath.c_str());
-	if (_levelGame != nullptr)
-		delete _levelGame;
-	_levelGame = LevelGame::LoadLevel(levelPath, _display->GetWidth(), _display->GetHeight());
-	auto tank1 = _levelGame->GetTanks()[0];
-	tank1.addComponent<InputComponent>();
-	tank1.activate();
-
-	InitSystems(_levelGame->EcsWorld(), _levelGame->PhysicsWorld());
-}
 
 void Game::MainLoop()
 {
@@ -102,7 +103,7 @@ void Game::MainLoop()
 	Seconds accumulator = 0; // Used to accumlate time in the game loop
 
 
-	while (true)
+	while (_isRunning)
 	{
 		_input->PollEvents();
 
@@ -116,7 +117,6 @@ void Game::MainLoop()
 
 		accumulator += frameTime;
 
-
 		// Update our game
 		while (accumulator >= DELTA_TIME)
 		{
@@ -126,7 +126,7 @@ void Game::MainLoop()
 
 		Render();
 		if (_input->GetKey(G_KEY_ESCAPE))
-			break;
+			_isRunning = false;
 		if (_input->GetKey(G_KEY_F8))
 			_debugDrawSystem.EnableDebug(true);
 		if (_input->GetKey(G_KEY_F7))
@@ -135,7 +135,7 @@ void Game::MainLoop()
 }
 
 void Game::InitSystems(anax::World & world, b2World &pWorld)
-{
+{	
 	_debugDrawSystem.SetWorld(&pWorld);
 	_physicsSystem.SetPhysicsWorld(&pWorld);
 	_collisionSystem.SetPWorld(&pWorld);
@@ -146,6 +146,8 @@ void Game::InitSystems(anax::World & world, b2World &pWorld)
 	world.addSystem(_collisionSystem);
 	world.addSystem(_gunControlSystem);
 	world.addSystem(_bulletAgeSystem);
+	world.addSystem(_aiSystem);
+	world.addSystem(_gameStateSystem);
 }
 
 void Game::InitResources()
@@ -153,9 +155,17 @@ void Game::InitResources()
 	ResourceManager::LoadShader(GetShaderPath("sprite.vert"), GetShaderPath("sprite.frag"), "sprite");
 
 	ResourceManager::LoadTexture(GetTexturePath("background.png"), "bg");
-	ResourceManager::LoadTexture(GetTexturePath("solid1.png"), "s1");
-	ResourceManager::LoadTexture(GetTexturePath("solid2.png"), "s2");
-	ResourceManager::LoadTexture(GetTexturePath("brick1.png"), "b1");
-	ResourceManager::LoadTexture(GetTexturePath("tank.png"), "t");
+	ResourceManager::LoadTexture(GetTexturePath("solid.png"), "s");
+	ResourceManager::LoadTexture(GetTexturePath("brick.png"), "b");
+	ResourceManager::LoadTexture(GetTexturePath("tank_h.png"), "tank_h");
+	ResourceManager::LoadTexture(GetTexturePath("tank_s.png"), "tank_s");
+	ResourceManager::LoadTexture(GetTexturePath("tank_d.png"), "tank_d");
 	ResourceManager::LoadTexture(GetTexturePath("bullet.png"), "bullet");
+}
+
+void Game::GameEnded(GameObject * won)
+{
+	_isRunning = false;
+	if (_gameStateLisener != nullptr)
+		_gameStateLisener->GameEnded(won);
 }

@@ -14,6 +14,10 @@ SpriteRenderingSystem::SpriteRenderingSystem(SpriteRender & renderer) :_renderer
 void SpriteRenderingSystem::Render()
 {
 	auto entities = getEntities();
+	std::sort(entities.begin(), entities.end(), [](anax::Entity& e1, anax::Entity& e2)
+	{
+		return e1.getComponent<SpriteComponent>().zOrder > e2.getComponent<SpriteComponent>().zOrder;
+	});
 	for (auto& entity : entities)
 	{
 		auto& sprite = entity.getComponent<SpriteComponent>().sprite;

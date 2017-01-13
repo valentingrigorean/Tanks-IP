@@ -1,4 +1,6 @@
-# - solid2
-t = tank
-1 - solid1
-2 - brick
+Grid is 15x15 for fullscreen
+
+s - solid texture
+b - brick texture
+t - tank texture
+.  or white space  - empty space
