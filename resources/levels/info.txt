@@ -1,4 +1,4 @@
-Grid is 15x15 for fullscreen
+Grid max size is 15x15
 
 s - solid texture
 b - brick texture
